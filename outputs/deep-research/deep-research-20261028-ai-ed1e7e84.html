@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>深度检索报告 · AI知识库六大空白点细分调研</title>
+<style>
+:root{
+  /* 主色 60% —— 暖白底，安静基调 */
+  --bg:#faf9f7;
+  --card:#ffffff;
+  --card-soft:#fbfaf8;
+  /* 辅色 30% —— 深灰文字 + 极浅暖灰分割 */
+  --ink:#2b2f36;
+  --ink-2:#6b7280;
+  --line:#eceae6;
+  /* 点睛 10% —— 黛青(内/主强调) / 珊瑚橙(外/关键数据) / 中性灰(未覆盖·历史) */
+  --accent:#2f4858;
+  --accent-deep:#1f3a5f;
+  --point:#d9684a;
+  --muted:#9aa0a6;
+  /* 三字体体系：展示(宋) / 阅读(黑) / 数据(等宽) */
+  --serif:"Noto Serif SC","Source Han Serif SC",serif;
+  --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:"Inter","JetBrains Mono",monospace;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:var(--sans);
+  background:var(--bg);
+  color:var(--ink);
+  padding:40px 32px;
+  line-height:1.7;
+}
+.report {
+  max-width:820px;
+  margin:0 auto;
+  background:var(--card);
+  border-radius:12px;
+  box-shadow:0 2px 16px rgba(43,47,54,.05);
+  overflow:hidden;
+}
+/* header —— 暖白底 + 黛青点睛条，去渐变 */
+.header {
+  background:var(--card);
+  border-top:4px solid var(--accent);
+  border-bottom:1px solid var(--line);
+  color:var(--ink);
+  padding:32px;
+}
+.header .kicker { font-family:var(--sans); font-size:13px; color:var(--muted); letter-spacing:1px; }
+.header h1 { font-family:var(--serif); font-size:22px; color:var(--accent); margin:8px 0 16px; font-weight:700; }
+.meta { display:flex; flex-wrap:wrap; gap:8px 20px; font-size:13px; color:var(--ink-2); }
+.meta b { font-weight:600; color:var(--ink); }
+.chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+.chip { background:#f1efea; padding:4px 12px; border-radius:999px; font-size:12px; color:var(--ink-2); }
+/* body */
+.body { padding:32px 32px 24px; }
+h2 {
+  font-family:var(--serif);
+  font-size:18px; color:var(--accent); margin:32px 0 16px;
+  display:flex; align-items:center; gap:8px;
+}
+h2::before { content:""; width:4px; height:18px; background:var(--accent); border-radius:2px; }
+/* conclusion cards */
+.grid { display:grid; grid-template-columns:1fr; gap:16px; }
+.card {
+  display:flex; gap:14px; align-items:flex-start;
+  background:var(--card-soft); border:1px solid var(--line); border-radius:10px;
+  padding:16px 20px; border-left:4px solid var(--muted);
+}
+.card .num { font-family:var(--mono); font-weight:700; color:var(--muted); font-size:14px; min-width:22px; }
+.card .txt { flex:1; font-size:14px; }
+.card.s-in { border-left-color:var(--accent); }
+.card.s-out { border-left-color:var(--point); }
+.card.s-both { border-left-color:var(--accent-deep); }
+.card.s-gap { border-left-color:var(--muted); }
+.badge {
+  display:inline-block; font-family:var(--sans); font-size:11px; font-weight:600;
+  padding:2px 8px; border-radius:999px; margin-right:6px; vertical-align:1px;
+}
+.b-in { background:#e7ecf0; color:#2f4858; }
+.b-out { background:#fbe9e3; color:#c0533a; }
+.b-both { background:#e3e9f0; color:#1f3a5f; }
+.b-gap { background:#f1efea; color:#6b7280; }
+/* table */
+table { width:100%; border-collapse:collapse; font-size:13px; margin-top:8px; }
+th { background:#f3f1ec; text-align:left; padding:10px; font-weight:600; color:var(--ink-2); }
+td { padding:10px; border-bottom:1px solid var(--line); vertical-align:top; }
+tr:last-child td { border-bottom:none; }
+/* source lists */
+.src-block { background:var(--card-soft); border:1px solid var(--line); border-radius:10px; padding:16px 20px; margin-top:16px; font-size:13px; }
+.src-block h4 { font-family:var(--sans); font-size:13px; margin-bottom:8px; color:var(--ink); }
+.src-block ul { list-style:none; }
+.src-block li { padding:4px 0; }
+.src-block .dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:8px; }
+.dot-in { background:var(--accent); } .dot-out { background:var(--point); } .dot-his { background:var(--accent); }
+code { font-family:var(--mono); background:#f3f1ec; padding:1px 5px; border-radius:4px; font-size:12px; color:var(--ink); }
+a { color:var(--point); text-decoration:none; }
+a:hover { text-decoration:underline; }
+/* footer */
+.footer { background:var(--card-soft); border-top:1px solid var(--line); padding:20px 32px 24px; font-size:12px; color:var(--muted); }
+.disclaimer { font-style:italic; color:var(--ink-2); margin-top:6px; }
+/* print */
+@media print { body{background:#fff;padding:0} .report{box-shadow:none;border-radius:0} }
+</style>
+</head>
+<body>
+<div class="report">
+  <div class="header">
+    <div class="kicker">深度检索报告 · DEEP-RESEARCH</div>
+    <h1>AI知识库六大空白点细分调研</h1>
+    <div class="meta">
+      <span><b>范围</b>：G1-G6 空白清单逐项深挖（承接原报告）</span>
+      <span><b>来源</b>：内部 1 · 外部 36</span>
+      <span><b>日期</b>：2026-10-28</span>
+    </div>
+    <div class="chips">
+      <span class="chip">检索路径：空白点逐项路由 → 联网</span>
+      <span class="chip">检索模式：关键词（中英文双路）</span>
+      <span class="chip">查询改写：中英文术语映射 + 规范化</span>
+    </div>
+  </div>
+
+  <div class="body">
+    <h2>核心结论</h2>
+    <div class="grid">
+      <div class="card s-both">
+        <div class="num">1</div>
+        <div class="txt"><span class="badge b-both">内+外</span><b>六空白"三填两窄一存半"</b>：G4（幻觉量化）、G5（权限同步）、G6（GraphRAG 成本）已被公开资料实质性填补，可直接用于生产决策；G1（Agentic ROI）与 G3（国产横评）明显收窄；G2（LLM Wiki 企业化）边界共识已形成、产品化路径已出现，但多人并发编辑仍无公开方案。</div>
+      </div>
+      <div class="card s-out">
+        <div class="num">2</div>
+        <div class="txt"><span class="badge b-out">外</span><b>G1 收窄</b>：分任务类型 ROI 表成为最佳决策依据——简单查询 +4-5pp 不值 5-10 倍成本，多步工作流 +40-55pp 才是 Agentic 主场（<a href="https://www.accio.com/wow/guide-agentic-ai-vs-traditional-rag-benchmarks.html">Accio 横评</a>）。</div>
+      </div>
+      <div class="card s-out">
+        <div class="num">3</div>
+        <div class="txt"><span class="badge b-out">外</span><b>G4 基本填补</b>：忠实度 ≥0.90（强监管 ≥0.95）、幻觉率 ≤10%、引用准确率 ≥90%、拒答准确率 ≥95% 的生产阈值线成文（<a href="https://cloud.tencent.com/developer/article/2738985">腾讯云开发者社区</a>）；RAGTruth/HaluMix 数据集与检测器 F1 0.82-0.84 齐备（<a href="https://citemetrix.com/?p=1715">CiteMetrix</a>）。</div>
+      </div>
+      <div class="card s-out">
+        <div class="num">4</div>
+        <div class="txt"><span class="badge b-out">外</span><b>G5 填补充分</b>：方案收敛为 pre-retrieval ACL 过滤三件套（chunk 继承 AD/NTFS 权限 + 相似度计算前过滤 + 泄露通道全封），生产实数：过滤开销仅几十毫秒、泄露事件从每季数起降为零（<a href="https://www.digit-ai.fr/en/blog/securite-rag-droits-acces">Digit-AI</a>）。</div>
+      </div>
+      <div class="card s-out">
+        <div class="num">5</div>
+        <div class="txt"><span class="badge b-out">外</span><b>G6 填补充分</b>：降本工具箱成型——小模型抽取 -70% 成本/-10% 精度、增量索引 -60-80%、LazyGraphRAG 索引成本降至全量 0.1%（<a href="https://tunicyberlabs.com/en/blog/building-a-cost-effective-graphrag-pipeline">Tunisian Cyber Labs</a>、<a href="https://gigarag.com/blog/graphrag-cost-build-maintain">GigaRAG</a>）。</div>
+      </div>
+      <div class="card s-out">
+        <div class="num">6</div>
+        <div class="txt"><span class="badge b-out">外</span><b>G2 部分填补</b>：规模化边界共识（数百页/5-10 万 token）+ 企业化两条路径（混合架构 / 组织记忆产品）已明确（<a href="https://atlan.com/know/llm-wiki-vs-rag-knowledge-base">Atlan</a>、<a href="https://www.sentra.app/articles/karpathy-llm-wiki">Sentra</a>）。</div>
+      </div>
+      <div class="card s-gap">
+        <div class="num">7</div>
+        <div class="txt"><span class="badge b-gap">⚠ 未覆盖</span><b>G3 空白维持成立</b>：五大国产开源（Dify/RAGFlow/FastGPT/MaxKB/WeKnora）在同一中文 RAGAS 基准下的中立横评依然缺失——首个中文统一口径 RAGAS 横评（<a href="https://yumben.com/?p=2680">LibRAG POC</a>）测的是闭源厂商方案而非开源产品。</div>
+      </div>
+    </div>
+
+    <h2>关键要点</h2>
+    <div class="src-block">
+      <ul>
+        <li><b>Agentic RAG 的 ROI 判断公式</b>：先看任务分布再谈架构——简单查询走 RAG 快路径（处理 60-80% 流量、亚 3 秒），仅多步/多源/代码类查询路由进 Agentic 管线；无预算断路器的自由 ReAct 循环是失败案例的共同形状。</li>
+        <li><b>幻觉验收可直接抄的数字</b>：生产基线 = 忠实度 ≥0.90 / 引用准确率 ≥90% / 拒答准确率 ≥95%；强监管抬到 ≥0.95；vanilla 前沿 RAG 引用忠实度仅 70-85%，达标需检测级联 + 引用溯源专项治理。</li>
+        <li><b>GraphRAG 成本公式</b>：80% 索引 token 花在实体抽取——便宜模型放抽取、强模型只做社区摘要；周更 10% 语料 ≈ 每周付 10% 初始索引成本 + 20-30% 重聚类开销。</li>
+        <li><b>权限同步不用自建第二套</b>：chunk 元数据继承源系统 ACL，查询时在相似度计算前加组过滤——Pinecone/Weaviate/Qdrant/Milvus 原生支持；别在检索后过滤（慢且漏引用泄露）。</li>
+        <li><b>LLM Wiki 上企业前的三个补丁</b>：检索层补位（超数百页）、权限跟随源工具、写时保鲜——补不齐就留在个人/小团队场景。</li>
+        <li><b>选国产开源仍需自建评测</b>：照 LibRAG 模板（1,000 道对齐题 + RAGAS 四指标 + 同一评测模型）跑横评，LightRAG 官方 evaluation 模块一条命令即可起评。</li>
+      </ul>
+    </div>
+
+    <h2>六空白状态总览</h2>
+    <table>
+      <tr><th>#</th><th>空白点</th><th>原状态</th><th>现状态</th><th>关键增量证据</th></tr>
+      <tr><td>G1</td><td>Agentic RAG 第三方 ROI 基准</td><td>全空（厂商自报）</td><td><b>明显收窄</b></td><td>分任务 ROI 表 + 三方非厂商数字（<a href="https://www.accio.com/wow/guide-agentic-ai-vs-traditional-rag-benchmarks.html">Accio</a>）</td></tr>
+      <tr><td>G2</td><td>LLM Wiki 企业化路径</td><td>全空</td><td><b>部分填补</b></td><td>边界共识 + 两条产品化路径（<a href="https://www.sentra.app/articles/karpathy-llm-wiki">Sentra</a>）；并发编辑仍无解</td></tr>
+      <tr><td>G3</td><td>国产开源权威横评</td><td>全空</td><td><b>收窄但成立</b></td><td>中文 RAGAS 横评方法论已验证（<a href="https://yumben.com/?p=2680">LibRAG</a>），五大开源横评仍缺</td></tr>
+      <tr><td>G4</td><td>幻觉量化验收</td><td>全空</td><td><b>基本填补</b></td><td>阈值线 + 数据集 + 检测器 F1（<a href="https://cloud.tencent.com/developer/article/2738985">腾讯云</a>）</td></tr>
+      <tr><td>G5</td><td>权限实时同步</td><td>全空（onyx 独例）</td><td><b>填补充分</b></td><td>pre-retrieval 三件套 + 生产实数（<a href="https://www.digit-ai.fr/en/blog/securite-rag-droits-acces">Digit-AI</a>）</td></tr>
+      <tr><td>G6</td><td>GraphRAG 成本商品化</td><td>全空</td><td><b>填补充分</b></td><td>成本实数 + 降本工具箱 + LazyGraphRAG（<a href="https://gigarag.com/blog/graphrag-cost-build-maintain">GigaRAG</a>）</td></tr>
+    </table>
+
+    <h2>证据清单（节选）</h2>
+    <table>
+      <tr><th>#</th><th>结论摘要</th><th>支撑</th><th>来源</th></tr>
+      <tr><td>1</td><td>G1 分任务 ROI 表：简单 +4-5pp 不值、多步工作流 +40-55pp 主场</td><td><span class="badge b-out">[外]</span></td><td><a href="https://www.accio.com/wow/guide-agentic-ai-vs-traditional-rag-benchmarks.html">accio.com</a></td></tr>
+      <tr><td>2</td><td>G1 独立实验室：+20-35% 准确率、2-5 倍成本；受约束 planner 才能上线</td><td><span class="badge b-out">[外]</span></td><td><a href="https://www.kensink.com/llm/rag/architectures/agentic">kensink.com</a></td></tr>
+      <tr><td>3</td><td>G1 ROI 分布：最佳 $3-7/$1 vs 中位 $0.8-1.2；单域优于通才 3-5 倍</td><td><span class="badge b-out">[外]</span></td><td><a href="https://twarx.com/blog/best-ai-agents-for-workflow-automation-in-2026-a-framework-first-comparison-mr9exmvn">twarx.com</a></td></tr>
+      <tr><td>4</td><td>G4 阈值线：忠实度 ≥0.90/0.95、引用 ≥90%、拒答 ≥95%</td><td><span class="badge b-out">[外]</span></td><td><a href="https://cloud.tencent.com/developer/article/2738985">cloud.tencent.com</a></td></tr>
+      <tr><td>5</td><td>G4 检测器上限：HalluMix F1 0.82-0.84，最优条件 1/14 幻觉漏过</td><td><span class="badge b-out">[外]</span></td><td><a href="https://citemetrix.com/?p=1715">citemetrix.com</a></td></tr>
+      <tr><td>6</td><td>G4 知识图谱 grounding 平均降幻觉 44%（IDC 2026-05）</td><td><span class="badge b-out">[外]</span></td><td><a href="https://wpnews.pro/news/what-is-ai-ready-data-how-a-knowledge-layer-gets-you-there">wpnews.pro</a></td></tr>
+      <tr><td>7</td><td>G6 成本实数：1,000 文档 mini $1.5-6 vs GPT-4 级 $50-100；80% token 在抽取</td><td><span class="badge b-out">[外]</span></td><td><a href="https://gigarag.com/blog/graphrag-cost-build-maintain">gigarag.com</a></td></tr>
+      <tr><td>8</td><td>G6 LazyGraphRAG：索引成本降至 0.1%（微软官方口径）</td><td><span class="badge b-out">[外]</span></td><td><a href="https://app.ailog.fr/en/blog/guides/graphrag-knowledge-graphs">app.ailog.fr</a></td></tr>
+      <tr><td>9</td><td>G2 边界共识：舒适区 100-200 篇；无 RBAC/无事务并发是设计假设</td><td><span class="badge b-out">[外]</span></td><td><a href="https://atlan.com/know/llm-wiki-vs-rag-knowledge-base">atlan.com</a></td></tr>
+      <tr><td>10</td><td>G2 Obsidian 官方限制：共享 vault 20 人/无细粒度权限/无实时协同</td><td><span class="badge b-out">[外]</span></td><td><a href="https://blog.deepai.wiki/posts/karpathy-kb-to-enterprise/">blog.deepai.wiki</a></td></tr>
+      <tr><td>11</td><td>G3 首个中文 RAGAS 横评：LibRAG 1,000 题四维打分（测闭源方案）</td><td><span class="badge b-out">[外]</span></td><td><a href="https://yumben.com/?p=2680">yumben.com</a></td></tr>
+      <tr><td>12</td><td>G5 生产实数：pre-retrieval 开销几十 ms、泄露事件归零、过 AI Act</td><td><span class="badge b-out">[外]</span></td><td><a href="https://www.digit-ai.fr/en/blog/securite-rag-droits-acces">digit-ai.fr</a></td></tr>
+      <tr><td>13</td><td>六空白状态总判与行动建议</td><td><span class="badge b-both">[内+外]</span></td><td>本报告 + 原报告（知识库目录）</td></tr>
+      <tr><td>14</td><td>G3 五大开源中立横评仍缺</td><td><span class="badge b-gap">[⚠ 未覆盖]</span></td><td>当前资料未覆盖</td></tr>
+      <tr><td>15</td><td>G2 并发编辑冲突消解开源方案</td><td><span class="badge b-gap">[⚠ 未覆盖]</span></td><td>当前资料未覆盖</td></tr>
+    </table>
+
+    <h2>口径与来源（进阶）</h2>
+    <div class="src-block">
+      <ul>
+        <li><b>术语口径</b>：忠实度 = 被检索上下文验证的事实断言占比（RAGAS Faithfulness）；pre-retrieval 过滤 = 相似度计算前施加元数据过滤</li>
+        <li><b>实体解析</b>："权限同步" → permission-aware retrieval / ACL sync / security trimming（同义族）；"第三方基准" → non-vendor / independent benchmark</li>
+        <li><b>数据状态</b>：内部资料截至 2026-10-28（原报告一份）；公开信息检索执行于 2026-10-28；成本/精度数字为来源方口径，未经同一基准复测</li>
+      </ul>
+    </div>
+
+    <h2>来源分区</h2>
+    <div class="src-block">
+      <h4>内部资料（1）</h4>
+      <ul>
+        <li><span class="dot dot-in"></span>AI知识库建设方法与开源框架产品调研（知识库/ 目录，2026-10-28，提供 G1-G6 空白清单与 C1-C8 共识基线）</li>
+      </ul>
+    </div>
+    <div class="src-block">
+      <h4>公开信息（36）</h4>
+      <ul>
+        <li><span class="dot dot-out"></span>G1：<a href="https://www.accio.com/wow/guide-agentic-ai-vs-traditional-rag-benchmarks.html">Agentic AI vs Traditional RAG（Accio）</a> · <a href="https://www.kensink.com/llm/rag/architectures/agentic">Agentic RAG 评测（Kensink Labs）</a> · <a href="https://www.onext.es/en/insights/agentic-rag-internal-documents-best-asset">内部文档 Agentic RAG（onext）</a> · <a href="https://twarx.com/blog/best-ai-agents-for-workflow-automation-in-2026-a-framework-first-comparison-mr9exmvn">AI Agent ROI 基准（Twarx）</a></li>
+        <li><span class="dot dot-out"></span>G4：<a href="https://cloud.tencent.com/developer/article/2738985">RAG 评测指标阈值（腾讯云）</a> · <a href="https://citemetrix.com/?p=1715">幻觉检测指南（CiteMetrix）</a> · <a href="http://fahimfaisal.info/ml_and_llm_learning/07_llm_problems/HALLUCINATION_DETECTION_DEEP_DIVE.html">幻觉检测深潜（Faisal）</a> · <a href="https://wpnews.pro/news/what-is-ai-ready-data-how-a-knowledge-layer-gets-you-there">知识层降幻觉（IDC/Neo4j）</a> · <a href="https://www.woshipm.com/?p=6377363">企业 RAG 实施（人人都是产品经理）</a> · <a href="https://sheepgeo.com/blog/enterprise-ai-strategy-knowledge-management-geo-framework-2026-april">知识管理与 GEO（SheepGeo）</a></li>
+        <li><span class="dot dot-out"></span>G6：<a href="https://gigarag.com/blog/graphrag-cost-build-maintain">GraphRAG 成本实数（GigaRAG）</a> · <a href="https://tunicyberlabs.com/en/blog/building-a-cost-effective-graphrag-pipeline">低成本 GraphRAG（Tunisian Cyber Labs）</a> · <a href="https://app.ailog.fr/en/blog/guides/graphrag-knowledge-graphs">GraphRAG 指南（Ailog）</a> · <a href="https://index.zshipu.com/ai002/post/20260822/">GraphRAG 成本优化（知识铺）</a> · <a href="https://skills.cat/skills/aeonbridge/ab-anthropic-claude-skills/graphrag">GraphRAG 配置参考（SkillsCat）</a></li>
+        <li><span class="dot dot-out"></span>G2：<a href="https://atlan.com/know/llm-wiki-vs-rag-knowledge-base">LLM Wiki vs RAG（Atlan）</a> · <a href="https://api.ai-karthik.com/news/53946">Wiki LLM 一线经验（ai-karthik）</a> · <a href="https://www.sentra.app/articles/karpathy-llm-wiki">LLM Wiki 企业化（Sentra）</a> · <a href="https://blog.deepai.wiki/posts/karpathy-kb-to-enterprise/">个人到企业（青岩码农）</a></li>
+        <li><span class="dot dot-out"></span>G3：<a href="https://yumben.com/?p=2680">LibRAG RAGAS POC（云本开源）</a> · <a href="https://blog.gitcode.com/9c297879fce6d06cff01779dd358688b.html">LightRAG 评估框架（GitCode）</a> · <a href="https://www.jxxy.net/ai/articles/a-gh-20261009-1217-vrag-hybrid-graphrag-triple-gate-local">VRAG 实测（觉醒AI）</a> · <a href="https://www.jxxy.net/ai/articles/a-2026-10-17-3838-rag-pipeline-production-ragas">RAG Pipeline（觉醒AI）</a> · <a href="https://ai.qidianhudong.com/aikonw/4308.html">四平台实测（起点互动）</a> · <a href="https://ai.qidianhudong.com/aikonw/3908.html">按预算横评（起点互动）</a> · <a href="https://xunsdai.blog.csdn.net/article/details/164461607">WeKnora 对比（CSDN）</a> · 掘金/科技新知两篇（原报告已录）</li>
+        <li><span class="dot dot-out"></span>G5：<a href="https://www.fileorbis.com/permission-aware-rag-how-to-prevent-ai-from-exposing-restricted-content">Permission-Aware RAG（FileOrbis）</a> · <a href="https://www.digit-ai.fr/en/blog/securite-rag-droits-acces">RAG 安全与 ACL（Digit-AI）</a> · <a href="https://eldoc.online/zh-hant/blog/ai-powered-document-and-data-archiving">AD/LDAP 同步（elDoc）</a> · <a href="https://www.sphereinc.com/solution/knowledge-ai">Knowledge AI（Sphere）</a> · <a href="https://www.fileorbis.com?p=12701/">FileOrbis 产品页</a></li>
+      </ul>
+    </div>
+
+    <h2>研究方法</h2>
+    <div class="src-block">
+      <ul>
+        <li><b>子问题</b>：①G1 是否出现非厂商自报的 Agentic RAG 生产 ROI 数据 ②G4 幻觉治理有无量化指标/数据集/阈值线 ③G6 GraphRAG 小模型抽取与成本最优平衡点 ④G2 LLM Wiki 超规模与多人协作公开工程路径 ⑤G3 国产开源统一口径权威横评 ⑥G5 权限实时同步技术方案与生产数据</li>
+        <li><b>检索查询</b>：web 共 8 轮（英文 3 + 中英双查 2 + 中文补证 2，其中 1 轮含组合查询）</li>
+        <li><b>唯一来源</b>：36 个（目标 15-30，超采为覆盖六个独立子领域）</li>
+        <li><b>深读篇数</b>：0 篇 WebFetch 全文（搜索结果摘要信息量已足；关键数字均附原始 URL 供复核）</li>
+        <li><b>源优先级</b>：官方/学术/权威媒体 &gt; 垂直技术博客 &gt; 论坛；近 12 月优先</li>
+        <li><b>修订记录</b>：v1 初版（六空白逐项深挖 + 状态总判 + 原报告结论三处强化）</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="disclaimer">⚠️ 本报告基于公开网络资料的整理归纳，全部结论均标注外部来源记号并附来源 URL；成本、精度、阈值等数字为各来源方口径，未经同一基准复测，立项与采购决策前应以官方渠道实时数据复核。本报告不构成商业采购建议。</div>
+    <div style="margin-top:4px;">生成：deep-research skill · md 底稿与证据表随 HTML 一并交付</div>
+  </div>
+</div>
+</body>
+</html>
