@@ -1,0 +1,34 @@
+wiki_space: 商城
+schema_version: "1.0"
+current_baseline: v2.3
+default_status: active
+owner: 需求知识委员会
+disclosure:
+  entry: 总览/_index.md
+  levels: [space, domain, summary, page, evidence, learning]
+  max_auto_pages: 8
+  require_source_citation: true
+  conflict_policy: read_evidence_first
+domains:
+  - id: order
+    name: 订单
+    path: 订单
+    index: 订单/_index.md
+    context_pack: 订单/_domain-context.md
+    owner: 李四
+    review_status: confirmed
+    page_types: [term, rule, process, requirement, scenario, risk, faq]
+  - id: member
+    name: 会员
+    path: 会员
+    index: 会员/_index.md
+    context_pack: 会员/_domain-context.md
+    owner: 王五
+    review_status: confirmed
+    page_types: [term, rule, process]
+page_status_priority:
+  - confirmed-active
+  - confirmed-superseded
+  - draft-active
+  - conflict
+  - deprecated
