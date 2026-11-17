@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SDD 试点 Spec 样例：优惠券叠加规则 · v1.8</title>
+<style>
+:root{
+  --bg:#f6f5f2; --paper:#ffffff; --paper-soft:#faf9f7;
+  --ink:#1d2733; --ink-2:#5c6672; --ink-3:#8b95a1; --line:#e8e6e1;
+  --navy:#16283c; --navy-2:#1f3a5f; --gold:#b8923d; --gold-soft:#f4ead2;
+  --serif:"Noto Serif SC","Source Han Serif SC","Songti SC",serif;
+  --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:"JetBrains Mono","SF Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.85;font-size:15px;}
+/* ===== HERO ===== */
+.hero{background:linear-gradient(148deg,#101d2c 0%,#16283c 46%,#1f3a5f 100%);color:#f4f1ea;padding:72px 40px 52px;position:relative;overflow:hidden;}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 640px 320px at 88% 8%,rgba(184,146,61,.16),transparent 64%),radial-gradient(ellipse 520px 300px at 6% 96%,rgba(96,140,180,.14),transparent 62%);pointer-events:none;}
+.hero-inner{max-width:1180px;margin:0 auto;position:relative;}
+.kicker{font-size:12px;letter-spacing:.42em;color:#c9b98a;text-transform:uppercase;margin-bottom:20px;}
+.hero h1{font-family:var(--serif);font-size:36px;line-height:1.35;font-weight:700;letter-spacing:.02em;margin-bottom:12px;}
+.hero h1 .ver{display:inline-block;vertical-align:12px;font-family:var(--sans);font-size:12.5px;font-weight:600;letter-spacing:.14em;color:#e9d9a8;border:1px solid rgba(233,217,168,.45);padding:3px 14px;border-radius:999px;margin-left:14px;}
+.sub{font-family:var(--serif);font-size:16px;color:#b8c4d2;letter-spacing:.03em;max-width:860px;}
+/* ===== LAYOUT ===== */
+.layout{max-width:1180px;margin:36px auto 0;padding:0 24px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:32px;align-items:start;}
+nav#TOC{position:sticky;top:24px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px 16px;font-size:13px;max-height:calc(100vh - 48px);overflow:auto;box-shadow:0 1px 3px rgba(29,39,51,.05);}
+nav#TOC::before{content:"目录";display:block;font-family:var(--serif);font-size:15px;font-weight:700;color:var(--navy);margin-bottom:10px;letter-spacing:.2em;}
+nav#TOC ul{list-style:none;margin:0;padding:0;}
+nav#TOC ul ul{padding-left:12px;margin-top:2px;}
+nav#TOC li{margin:4px 0;}
+nav#TOC a{color:var(--ink-2);text-decoration:none;display:block;padding:3px 8px;border-radius:6px;line-height:1.55;}
+nav#TOC a:hover{color:var(--navy);background:var(--gold-soft);}
+main.content{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:42px 46px 48px;box-shadow:0 1px 3px rgba(29,39,51,.05);min-width:0;}
+/* ===== TYPOGRAPHY ===== */
+h1,h2,h3,h4{font-family:var(--serif);color:var(--navy);line-height:1.4;}
+main.content h2{font-size:25px;margin:52px 0 18px;padding-bottom:10px;border-bottom:2px solid var(--gold-soft);position:relative;}
+main.content h2::before{content:"";position:absolute;left:0;bottom:-2px;width:56px;height:2px;background:var(--gold);}
+main.content h2:first-of-type{margin-top:8px;}
+main.content h3{font-size:18.5px;margin:32px 0 12px;color:var(--navy-2);}
+main.content h4{font-size:15.5px;margin:24px 0 8px;color:var(--ink);}
+p{margin:10px 0;}
+a{color:var(--navy-2);}
+strong{color:var(--navy);}
+hr{border:none;border-top:1px solid var(--line);margin:40px 0;}
+ul,ol{padding-left:1.5em;margin:10px 0;}
+li{margin:5px 0;}
+blockquote{margin:20px 0;padding:16px 20px;background:var(--gold-soft);border-left:4px solid var(--gold);border-radius:0 10px 10px 0;color:#5a4a25;}
+blockquote p{margin:4px 0;}
+code{font-family:var(--mono);font-size:12.5px;background:var(--paper-soft);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#8a4b2f;}
+pre{background:var(--paper-soft);border:1px solid var(--line);border-radius:10px;padding:16px 18px;overflow:auto;margin:14px 0;font-size:12.5px;line-height:1.7;}
+pre code{background:none;border:none;padding:0;color:var(--ink);}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px;display:block;overflow-x:auto;}
+th{background:var(--navy);color:#f4f1ea;font-weight:600;text-align:left;}
+th,td{border:1px solid var(--line);padding:8px 11px;vertical-align:top;line-height:1.65;}
+tbody tr:nth-child(even){background:var(--paper-soft);}
+/* ===== FOOTER ===== */
+.footer{max-width:1180px;margin:28px auto 48px;padding:24px 28px;background:var(--paper);border:1px solid var(--line);border-radius:12px;color:var(--ink-2);font-size:12.5px;line-height:2;}
+.footer .f-title{font-family:var(--serif);font-weight:700;color:var(--navy);font-size:14px;margin-bottom:4px;}
+@media (max-width:900px){
+  .hero{padding:52px 24px 36px;}
+  .hero h1{font-size:27px;}
+  .layout{grid-template-columns:1fr;margin-top:20px;}
+  nav#TOC{position:static;max-height:none;}
+  main.content{padding:26px 20px 32px;}
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <div class="kicker">交付方案 · 浏览版</div>
+    <h1>SDD 试点 Spec 样例：优惠券叠加规则<span class="ver">v1.8</span></h1>
+    <p class="sub">需求 AI 就绪度六维评估 → L1 需求 Spec → L2 技术 Spec → L3 任务拆解 的完整可复制样例</p>
+  </div>
+</header>
+<div class="layout">
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#需求-ai-就绪度六维评估路由结论" id="toc-需求-ai-就绪度六维评估路由结论">〇、需求 AI 就绪度六维评估（路由结论）</a></li>
+<li><a href="#一l1-需求-spec优惠券叠加规则" id="toc-一l1-需求-spec优惠券叠加规则">一、L1 需求 Spec：优惠券叠加规则</a></li>
+<li><a href="#二l2-技术-spec优惠券叠加规则" id="toc-二l2-技术-spec优惠券叠加规则">二、L2 技术 Spec：优惠券叠加规则</a></li>
+<li><a href="#三l3-任务拆解每任务-0.51-天" id="toc-三l3-任务拆解每任务-0.51-天">三、L3 任务拆解（每任务 ≤ 0.5–1 天）</a></li>
+<li><a href="#四试点使用说明" id="toc-四试点使用说明">四、试点使用说明</a></li>
+</ul>
+</nav>
+<main class="content">
+<blockquote>
+<p><strong>样例定位</strong>：本文演示一个 B 类（SDD 全流程）需求从”需求 AI 就绪度”六维评估、L1 需求 Spec、L2 技术 Spec 到 L3 任务拆解的完整写法。业务场景为虚构的电商”优惠券叠加规则”，可直接替换为贵司真实试点需求后使用。配套方法论见《AI Coding 与 SDD 需求适配与落地方案 v1.8》。</p>
+</blockquote>
+<h2 id="需求-ai-就绪度六维评估路由结论">〇、需求 AI 就绪度六维评估（路由结论）</h2>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>编号</th>
+<th>维度</th>
+<th>权重</th>
+<th>得分（1–5）</th>
+<th>加权分</th>
+<th>依据与备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>格式结构化</td>
+<td>10%</td>
+<td>5</td>
+<td>0.50</td>
+<td>本 Spec 已是 Markdown，规则/验收以表格与编号表达，可直接入 Git</td>
+</tr>
+<tr>
+<td>2</td>
+<td>内容清晰完备</td>
+<td>30%</td>
+<td>5</td>
+<td>1.50</td>
+<td>背景、目标、用户、范围与非目标（1.6）明确；R1–R8 均为编号可判定条款，边界与异常有专表</td>
+</tr>
+<tr>
+<td>3</td>
+<td>验收可判定</td>
+<td>25%</td>
+<td>4</td>
+<td>1.00</td>
+<td>AC1–AC8 均为 Given/When/Then，可映射自动化测试；退款分摊尾差复杂，评审重点</td>
+</tr>
+<tr>
+<td>4</td>
+<td>知识支撑</td>
+<td>10%</td>
+<td>4</td>
+<td>0.40</td>
+<td>术语与历史口径引用知识库条目；个别旧口径需裁决后引用</td>
+</tr>
+<tr>
+<td>5</td>
+<td>技术可行性</td>
+<td>15%</td>
+<td>5</td>
+<td>0.75</td>
+<td>开发已在 L2 补充：方案对比、性能指标（预览 P99&lt;100ms、熔断 200ms）、异常降级、幂等回退、灰度回滚</td>
+</tr>
+<tr>
+<td>6</td>
+<td>粒度适中</td>
+<td>10%</td>
+<td>5</td>
+<td>0.50</td>
+<td>已拆解为 T1–T8，每任务 ≤1 人日且附独立验收</td>
+</tr>
+<tr>
+<td>—</td>
+<td><strong>总分</strong></td>
+<td>100%</td>
+<td>—</td>
+<td><strong>4.65</strong></td>
+<td><strong>B：SDD 全流程</strong>（就绪度高但规模大：跨三模块、&gt;1 人日）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>就绪化五连问</strong>：□ 已是 Markdown ✔　□ 意图与规则边界闭环 ✔　□ 验收为 Given/When/Then ✔　□ 技术方案与指标已由开发补充 ✔　□ 已拆为 ≤1 人日任务 ✔。</p>
+<p><strong>路由理由</strong>：六维就绪度 4.65，需求本身已可被 AI 直接消费；但绝对规模大（跨订单/营销/财务三个模块、&gt;1 人日），不适合直接 AI Coding，走 SDD 全流程——先评审规则表与技术方案，再按 T1–T8 逐任务执行。</p>
+<hr />
+<h2 id="一l1-需求-spec优惠券叠加规则">一、L1 需求 Spec：优惠券叠加规则</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>项</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>作者</td>
+<td>产品经理 张三</td>
+</tr>
+<tr>
+<td>日期</td>
+<td>2026-11-04</td>
+</tr>
+<tr>
+<td>状态</td>
+<td>已确认</td>
+</tr>
+<tr>
+<td>关联知识库条目</td>
+<td>术语-优惠券门槛 · 规则-退款金额分摊 · 决策-店铺券先于平台券</td>
+</tr>
+</tbody>
+</table>
+<h3 id="问题与目标">1.1 问题与目标</h3>
+<p>当前每单只允许使用一张优惠券，大促期间用户希望”店铺券 + 平台券”组合使用。运营侧每年因无法组合发券，需要设计大量单品专享券，配置成本高。</p>
+<p><strong>衡量指标</strong>：</p>
+<ul>
+<li>券核销率提升 ≥ 8%；</li>
+<li>因优惠配置导致的客服工单下降 ≥ 20%；</li>
+<li>优惠计算错误率为 0（资金红线）。</li>
+</ul>
+<h3 id="用户故事">1.2 用户故事</h3>
+<ol type="1">
+<li>作为买家，我希望下单时同时使用一张店铺券和一张平台券，以便获得最大优惠；</li>
+<li>作为运营人员，我希望系统按固定优先级自动计算叠加结果，以便不必为每个组合单独建券；</li>
+<li>作为财务人员，我希望退款时按实付金额比例分摊优惠，以便对账口径一致。</li>
+</ol>
+<h3 id="业务规则每条可判定真假">1.3 业务规则（每条可判定真假）</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>编号</th>
+<th>规则</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td>每单最多使用 1 张平台券 + 1 张店铺券</td>
+<td>新增</td>
+</tr>
+<tr>
+<td>R2</td>
+<td>折扣券与折扣券不可叠加；满减券与满减券不可叠加</td>
+<td>知识库：决策-叠加互斥</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>优惠计算顺序：先店铺券，后平台券</td>
+<td>知识库：决策-店铺券先于平台券</td>
+</tr>
+<tr>
+<td>R4</td>
+<td>叠加后单笔订单实付金额不得低于 0.01 元</td>
+<td>新增</td>
+</tr>
+<tr>
+<td>R5</td>
+<td>退款按商品实付金额占比分摊优惠，分摊误差 ≤ 0.01 元且由尾差规则兜底</td>
+<td>知识库：规则-退款金额分摊</td>
+</tr>
+<tr>
+<td>R6</td>
+<td>赠品、运费、保险费不计入优惠券使用门槛</td>
+<td>知识库：术语-优惠券门槛</td>
+</tr>
+<tr>
+<td>R7</td>
+<td>虚拟商品与跨境订单本期不支持叠加用券</td>
+<td>新增（非目标）</td>
+</tr>
+<tr>
+<td>R8</td>
+<td>券库存扣减与订单创建必须防超发（并发场景）</td>
+<td>新增</td>
+</tr>
+</tbody>
+</table>
+<h3 id="边界与异常">1.4 边界与异常</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>类别</th>
+<th>约定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>输入边界</td>
+<td>优惠券门槛金额按商品小计（税前、优惠前）计算；金额单位为分</td>
+</tr>
+<tr>
+<td>并发与幂等</td>
+<td>同一订单重复请求优惠试算/锁定接口，结果必须幂等；防超发用 Redis 原子扣减 + 数据库乐观锁兜底</td>
+</tr>
+<tr>
+<td>权限</td>
+<td>仅买家本人可为自己的订单用券；运营后台可配置模板，不可代客锁定</td>
+</tr>
+<tr>
+<td>兼容性</td>
+<td>旧版下单入口（App ≤ 5.8）不展示叠加入口，行为保持单券</td>
+</tr>
+<tr>
+<td>异常流</td>
+<td>券引擎超时或异常时，下单降级为”不可用券”并明确提示，不阻断下单</td>
+</tr>
+<tr>
+<td>资金安全</td>
+<td>所有金额用 Decimal（分为单位）计算，禁止浮点数；优惠流水全量落库可审计</td>
+</tr>
+</tbody>
+</table>
+<h3 id="验收标准givenwhenthen">1.5 验收标准（Given/When/Then）</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>编号</th>
+<th>验收标准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC1</td>
+<td>Given 订单满足店铺券门槛，When 买家同时选择店铺券与平台券，Then 两个优惠按 R3 顺序生效且实付金额计算正确</td>
+</tr>
+<tr>
+<td>AC2</td>
+<td>Given 订单实付金额低于 0.01 元，When 叠加计算完成，Then 实付金额固定为 0.01 元且差额部分按 R3 逆向削减优惠</td>
+</tr>
+<tr>
+<td>AC3</td>
+<td>Given 买家选择两张平台券，When 提交订单，Then 系统拒绝并提示”每单最多使用一张平台券”</td>
+</tr>
+<tr>
+<td>AC4</td>
+<td>Given 商品含赠品与运费，When 计算用券门槛，Then 赠品与运费金额不计入门槛</td>
+</tr>
+<tr>
+<td>AC5</td>
+<td>Given 券库存仅剩 1 张，When 两个买家并发提交订单，Then 只有 1 单成功锁券，另一单明确失败</td>
+</tr>
+<tr>
+<td>AC6</td>
+<td>Given 使用叠加券的订单部分退款，When 执行退款，Then 每个商品按实付占比分摊优惠，误差 ≤ 0.01 元</td>
+</tr>
+<tr>
+<td>AC7</td>
+<td>Given 虚拟商品订单，When 进入结算页，Then 叠加用券入口置灰并提示”暂不支持”</td>
+</tr>
+<tr>
+<td>AC8</td>
+<td>Given 券引擎超时，When 买家提交订单，Then 订单可不用券正常创建并出现降级提示</td>
+</tr>
+</tbody>
+</table>
+<h3 id="非目标本期明确不做">1.6 非目标（本期明确不做）</h3>
+<ul>
+<li>不做三张及以上优惠券叠加；</li>
+<li>不做积分抵扣与会员价参与叠加；</li>
+<li>不做优惠券转赠与分享；</li>
+<li>不改造旧版收银台 UI。</li>
+</ul>
+<h3 id="开放问题">1.7 开放问题</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>问题</th>
+<th>负责人</th>
+<th>截止日期</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>平台券与店铺券同门槛时谁先计算是否影响金额？</td>
+<td>开发</td>
+<td>2026-11-06</td>
+<td>已关闭（R3 固定顺序）</td>
+</tr>
+<tr>
+<td>跨境订单后续是否放开？</td>
+<td>产品</td>
+<td>2026-11-15</td>
+<td>跟踪中（不阻塞本期）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="二l2-技术-spec优惠券叠加规则">二、L2 技术 Spec：优惠券叠加规则</h2>
+<h3 id="方案概述与备选方案对比">2.1 方案概述与备选方案对比</h3>
+<p>新建独立的 <code>coupon-engine</code> 领域模块，以”规则表 + 计算管线”承载叠加逻辑；订单服务通过内部 API 调用，不侵入订单主流程。</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>备选方案</th>
+<th>结论</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A：独立 coupon-engine 模块</td>
+<td><strong>采纳</strong></td>
+<td>规则集中、可独立测试与灰度；避免优惠逻辑散落订单代码</td>
+</tr>
+<tr>
+<td>B：在订单服务内 if-else 实现</td>
+<td>否决</td>
+<td>规则会持续膨胀，跨模块耦合，后续无法独立演进</td>
+</tr>
+<tr>
+<td>C：外采营销中台</td>
+<td>暂缓</td>
+<td>成本与排期不匹配，本期先沉淀内部规则模型</td>
+</tr>
+</tbody>
+</table>
+<h3 id="架构与模块改动">2.2 架构与模块改动</h3>
+<pre class="text"><code>订单服务 order-service
+   │ ①预览 / ②锁定 / ③核销 / ④回退
+   ▼
+优惠券引擎 coupon-engine（新增）
+   ├─ rule-loader    加载 R1–R8 规则与券模板
+   ├─ calculator     按顺序计算店铺券 → 平台券
+   ├─ inventory      券库存原子扣减（Redis + DB 乐观锁）
+   └─ refund-alloc   退款按实付占比分摊
+   ▼
+财务服务 finance-service（退款分摊流水回写）</code></pre>
+<p>涉及文件（示例）：</p>
+<ul>
+<li><code>services/order/checkout.py</code>：调用券预览与锁定；</li>
+<li><code>services/coupon-engine/</code>：新增模块；</li>
+<li><code>services/finance/refund.py</code>：接入分摊流水；</li>
+<li><code>docs/specs/coupon-stacking/</code>：本 Spec 与规则表入库。</li>
+</ul>
+<h3 id="数据模型与迁移">2.3 数据模型与迁移</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>表</th>
+<th>关键字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>coupon_template</code></td>
+<td>id, type(满减/折扣), threshold, amount, scope</td>
+<td>券模板，运营配置</td>
+</tr>
+<tr>
+<td><code>user_coupon</code></td>
+<td>id, user_id, template_id, status, expire_at</td>
+<td>用户持券状态</td>
+</tr>
+<tr>
+<td><code>order_coupon_record</code></td>
+<td>order_id, coupon_id, deduct_amount, calc_snapshot</td>
+<td>优惠流水，保存计算快照供审计</td>
+</tr>
+<tr>
+<td><code>refund_allocation</code></td>
+<td>refund_id, order_id, item_id, alloc_amount</td>
+<td>退款分摊明细</td>
+</tr>
+</tbody>
+</table>
+<p>迁移策略：先建表并双写影子流量 3 天，对账一致后切换读路径；旧单券字段保留 90 天兼容期。</p>
+<h3 id="api-契约">2.4 API 契约</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>接口</th>
+<th>用途</th>
+<th>关键约定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST /internal/coupons/preview</code></td>
+<td>结算页试算可用券与叠加结果</td>
+<td>幂等键 <code>order_draft_id</code>；只读不扣库存</td>
+</tr>
+<tr>
+<td><code>POST /internal/coupons/lock</code></td>
+<td>下单锁定券与扣减库存</td>
+<td>幂等键 <code>order_id</code>；失败返回明确错误码</td>
+</tr>
+<tr>
+<td><code>POST /internal/coupons/settle</code></td>
+<td>支付成功核销</td>
+<td>幂等键 <code>payment_id</code>；写 order_coupon_record</td>
+</tr>
+<tr>
+<td><code>POST /internal/coupons/rollback</code></td>
+<td>超时/取消/全额退款回退</td>
+<td>幂等键 <code>order_id + seq</code>；恢复库存</td>
+</tr>
+</tbody>
+</table>
+<p>错误码示例：<code>COUPON_SOLD_OUT</code>（库存不足）、<code>COUPON_THRESHOLD_NOT_MET</code>（未达门槛）、<code>COUPON_COMBINATION_REJECTED</code>（组合违规）、<code>COUPON_ENGINE_DEGRADED</code>（引擎降级）。</p>
+<h3 id="异常处理与降级">2.5 异常处理与降级</h3>
+<ul>
+<li>券引擎 P99 &gt; 200ms 连续 10 次：熔断，结算页降级为不可用券并提示；</li>
+<li>降级期间下单不阻断，订单标记 <code>coupon_degraded</code>，事后再营销补偿；</li>
+<li>所有锁定操作带 15 分钟超时自动回退（T+0 定时任务）。</li>
+</ul>
+<h3 id="安全与合规">2.6 安全与合规</h3>
+<ul>
+<li>金额全部以”分”为单位的 Decimal 运算，禁止 float；</li>
+<li>优惠流水 <code>calc_snapshot</code> 保存规则版本号与输入输出，满足审计追溯；</li>
+<li>接口仅限内网服务账号调用，操作日志保留 180 天；</li>
+<li>券库存扣减与订单创建跨表一致，采用”先锁券、后建单、失败回退”补偿。</li>
+</ul>
+<h3 id="测试策略">2.7 测试策略</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>层级</th>
+<th>范围</th>
+<th>要求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单元测试</td>
+<td>R1–R8 规则矩阵、金额计算、尾差分摊</td>
+<td>覆盖率 ≥ 90%，规则用例 ≥ 60 个</td>
+</tr>
+<tr>
+<td>集成测试</td>
+<td>预览/锁定/核销/回退全链路</td>
+<td>AC1–AC8 全部自动化</td>
+</tr>
+<tr>
+<td>并发测试</td>
+<td>AC5 库存超发场景</td>
+<td>压测 1000 并发无超发</td>
+</tr>
+<tr>
+<td>回归测试</td>
+<td>旧版单券下单、退款对账</td>
+<td>双写影子对账 3 天零差异</td>
+</tr>
+<tr>
+<td>资损演练</td>
+<td>降级、回退、幂等重放</td>
+<td>演练记录入验收材料</td>
+</tr>
+</tbody>
+</table>
+<h3 id="灰度与回滚">2.8 灰度与回滚</h3>
+<ul>
+<li>灰度开关 <code>coupon_engine_v2</code> 按 1% → 10% → 50% → 100% 流量放开；</li>
+<li>每个阶段观察核销率、资损告警、P99 延迟至少 24 小时；</li>
+<li>回滚预案：关闭开关即回到旧单券链路；已灰度订单按 <code>calc_snapshot</code> 继续履约，不受影响。</li>
+</ul>
+<hr />
+<h2 id="三l3-任务拆解每任务-0.51-天">三、L3 任务拆解（每任务 ≤ 0.5–1 天）</h2>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>任务</th>
+<th>名称</th>
+<th>前置</th>
+<th>涉及文件</th>
+<th>验收（可执行）</th>
+<th>风险与回滚</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1</td>
+<td>规则表与规则加载器</td>
+<td>—</td>
+<td>coupon-engine/rule_loader.py</td>
+<td>R1–R8 规则以数据文件加载，单测全绿</td>
+<td>规则文件版本化，可回退</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>金额计算管线</td>
+<td>T1</td>
+<td>coupon-engine/calculator.py</td>
+<td>AC1、AC2 单测通过，金额 Decimal</td>
+<td>计算器纯函数，无状态可替换</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>预览接口</td>
+<td>T2</td>
+<td>coupon-engine/api/preview.py</td>
+<td>幂等重放结果一致，P99 &lt; 100ms</td>
+<td>只读接口，直接下线</td>
+</tr>
+<tr>
+<td>T4</td>
+<td>库存锁定与防超发</td>
+<td>T1</td>
+<td>coupon-engine/inventory.py</td>
+<td>AC5 并发压测无超发</td>
+<td>超时自动回退任务兜底</td>
+</tr>
+<tr>
+<td>T5</td>
+<td>订单服务接入</td>
+<td>T3, T4</td>
+<td>services/order/checkout.py</td>
+<td>下单成功锁券，取消后回退</td>
+<td>开关 <code>coupon_engine_v2</code> 控制</td>
+</tr>
+<tr>
+<td>T6</td>
+<td>退款分摊接入</td>
+<td>T2</td>
+<td>services/finance/refund.py</td>
+<td>AC6 分摊误差 ≤ 0.01 元</td>
+<td>分摊流水可重放修正</td>
+</tr>
+<tr>
+<td>T7</td>
+<td>灰度开关与监控</td>
+<td>T5</td>
+<td>infra/flags, monitoring</td>
+<td>资损告警、P99、核销率看板可用</td>
+<td>关开关即回旧链路</td>
+</tr>
+<tr>
+<td>T8</td>
+<td>知识回写</td>
+<td>T5, T6</td>
+<td>需求知识库/营销域</td>
+<td>R1–R8 与决策回写知识库并过产品审核</td>
+<td>知识库版本化</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="四试点使用说明">四、试点使用说明</h2>
+<ol type="1">
+<li><strong>替换业务</strong>：将”优惠券叠加”替换为真实试点需求，保留本文件结构与评审顺序；</li>
+<li><strong>先评后写</strong>：先填第〇章六维就绪度评估表确认路由（高分 + 大规模 → B），再进入 L1/L2/L3；任一维 ≤ 2 时，先补齐对应短板（转 Markdown、补内容、补 Given/When/Then、补知识、补技术方案与指标、拆任务）再重评；</li>
+<li><strong>技术补充</strong>：L2 技术 Spec 由开发编写——技术方案与约束、技术/性能指标、边界条件、异常处理补齐后，才允许进入 AI Coding；</li>
+<li><strong>规则可判定</strong>：L1 的每条规则必须能回答”是/否”，做不到就回到需求澄清；</li>
+<li><strong>验收先行</strong>：AC1–AC8 必须在写代码前评审通过，并与自动化测试一一对应；</li>
+<li><strong>知识回写</strong>：T8 为强制任务，未回写知识库的需求不算交付完成；</li>
+<li><strong>度量挂钩</strong>：试点结束时对照主方案第六章指标采集数据（任务一次通过率、Spec 评审通过率、知识回写率）。</li>
+</ol>
+</main>
+</div>
+<footer class="footer">
+  <div class="f-title">SDD 试点 Spec 样例：优惠券叠加规则 · v1.8</div>
+  <p>依据《AI Coding 与 SDD 需求适配与落地方案 v1.8》编写 · 2026-11-05 · 业务场景为虚构示例，可直接替换为真实试点需求</p>
+  <p>同名 Markdown 为评审基准，本 HTML 仅作浏览用途。</p>
+</footer>
+</body>
+</html>

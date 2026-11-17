@@ -1,0 +1,1176 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WeKnora 功能矩阵与企业内部落地 MVP</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #5d6b82;
+      --line: #dfe5ef;
+      --paper: #ffffff;
+      --page: #f4f7fb;
+      --brand: #155eef;
+      --brand-dark: #0b3fa8;
+      --foundation: #173b63;
+      --knowledge: #0f6b64;
+      --intelligence: #57419a;
+      --integration: #96590b;
+      --experience: #a33b62;
+      --ok: #147d64;
+      --warn: #b25b00;
+      --delay: #75819a;
+      --shadow: 0 12px 35px rgba(23, 32, 51, .08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.68;
+      letter-spacing: .01em;
+    }
+
+    a { color: var(--brand); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .layout { max-width: 1360px; margin: 0 auto; padding: 0 28px 90px; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      margin: 0 -28px 54px;
+      padding: 86px 54px 68px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 82% 12%, rgba(83, 176, 255, .42), transparent 29%),
+        radial-gradient(circle at 12% 82%, rgba(64, 218, 181, .25), transparent 27%),
+        linear-gradient(133deg, #081a35 0%, #123b74 48%, #155eeF 100%);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -90px;
+      bottom: -160px;
+      width: 480px;
+      height: 480px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 50%;
+    }
+
+    .hero-inner { position: relative; z-index: 1; max-width: 1120px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 22px;
+      padding: 7px 14px;
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 999px;
+      background: rgba(255,255,255,.1);
+      color: rgba(255,255,255,.88);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .hero h1 {
+      margin: 0 0 18px;
+      font-size: clamp(35px, 5vw, 61px);
+      line-height: 1.12;
+      letter-spacing: -.035em;
+    }
+
+    .hero p {
+      max-width: 880px;
+      margin: 0;
+      color: rgba(255,255,255,.84);
+      font-size: 18px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .hero-pill {
+      padding: 9px 15px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.11);
+      color: rgba(255,255,255,.88);
+      font-size: 13px;
+    }
+
+    .toc {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 12px;
+      margin: -28px 0 58px;
+    }
+
+    .toc a {
+      display: block;
+      padding: 17px 18px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--paper);
+      color: var(--ink);
+      box-shadow: var(--shadow);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .toc a span {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--brand);
+      font-size: 12px;
+    }
+
+    .section { margin-bottom: 66px; scroll-margin-top: 30px; }
+    .section-title {
+      display: flex;
+      align-items: baseline;
+      gap: 15px;
+      margin: 0 0 9px;
+      font-size: 30px;
+      line-height: 1.25;
+      letter-spacing: -.025em;
+    }
+
+    .section-title small { color: var(--muted); font-size: 14px; font-weight: 600; }
+    .section-intro { max-width: 920px; margin: 0 0 26px; color: var(--muted); }
+
+    .panel {
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 15px; }
+
+    .summary-card h3, .role-card h3, .risk-card h3, .build-card h3 { margin: 0 0 10px; font-size: 18px; }
+    .summary-card p, .role-card p, .risk-card p { margin: 0; color: var(--muted); font-size: 14px; }
+
+    .summary-card strong { color: var(--ink); }
+    .summary-number {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--brand);
+      font-size: 35px;
+      line-height: 1;
+      letter-spacing: -.04em;
+    }
+
+    .role-card { border-top: 4px solid var(--brand); }
+    .role-card:nth-child(2) { border-top-color: var(--knowledge); }
+    .role-card:nth-child(3) { border-top-color: var(--intelligence); }
+    .role-card:nth-child(4) { border-top-color: var(--integration); }
+
+    .architecture {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(190px, 1fr));
+      gap: 14px;
+      align-items: stretch;
+      margin: 0;
+    }
+
+    .arch-column {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fbfcff;
+    }
+
+    .arch-column h3 { margin: 0 0 2px; font-size: 15px; }
+    .arch-column p { margin: 0; color: var(--muted); font-size: 13px; }
+    .arch-badge {
+      align-self: flex-start;
+      padding: 4px 9px;
+      border-radius: 7px;
+      background: #eaf0ff;
+      color: var(--brand-dark);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .matrix-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0 0 20px;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .legend-swatch { width: 12px; height: 12px; border-radius: 4px; }
+
+    .area { margin-bottom: 32px; }
+    .area-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 16px;
+      font-size: 20px;
+    }
+
+    .area-title::before {
+      content: "";
+      width: 8px;
+      height: 22px;
+      border-radius: 5px;
+      background: currentColor;
+    }
+
+    .area-foundation .area-title { color: var(--foundation); }
+    .area-knowledge .area-title { color: var(--knowledge); }
+    .area-intelligence .area-title { color: var(--intelligence); }
+    .area-integration .area-title { color: var(--integration); }
+    .area-experience .area-title { color: var(--experience); }
+
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(335px, 1fr));
+      gap: 18px;
+      align-items: start;
+    }
+
+    .brick-stack {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: #fff;
+      box-shadow: 0 8px 22px rgba(23,32,51,.06);
+    }
+
+    .module-brick {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 17px 18px 16px;
+      color: #fff;
+      background: var(--foundation);
+    }
+
+    .module-brick h3 {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.35;
+      letter-spacing: -.015em;
+    }
+
+    .module-tag {
+      flex: 0 0 auto;
+      padding: 3px 8px;
+      border-radius: 7px;
+      background: rgba(255,255,255,.17);
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .area-foundation .module-brick { background: linear-gradient(135deg, var(--foundation), #255d8f); }
+    .area-knowledge .module-brick { background: linear-gradient(135deg, var(--knowledge), #199181); }
+    .area-intelligence .module-brick { background: linear-gradient(135deg, var(--intelligence), #7259bb); }
+    .area-integration .module-brick { background: linear-gradient(135deg, var(--integration), #bd7318); }
+    .area-experience .module-brick { background: linear-gradient(135deg, var(--experience), #bf5680); }
+
+    .detail-brick {
+      padding: 13px 18px 14px;
+      border-top: 1px solid #e8edf5;
+      background: #fff;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .detail-brick:nth-of-type(even) { background: #f8fbff; }
+    .detail-brick strong { display: block; margin-bottom: 2px; color: var(--ink); font-size: 13px; }
+
+    .mvp-track {
+      position: relative;
+      display: grid;
+      gap: 20px;
+    }
+
+    .mvp-stage {
+      position: relative;
+      display: grid;
+      grid-template-columns: 190px minmax(0, 1fr);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .mvp-index {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      padding: 24px;
+      color: #fff;
+      background: linear-gradient(160deg, #0b3fa8, #155eef);
+    }
+
+    .mvp-stage:nth-child(2) .mvp-index { background: linear-gradient(160deg, #0c5f58, #12897f); }
+    .mvp-stage:nth-child(3) .mvp-index { background: linear-gradient(160deg, #4d3988, #6852ab); }
+    .mvp-stage:nth-child(4) .mvp-index { background: linear-gradient(160deg, #875111, #ab6d15); }
+    .mvp-stage:nth-child(5) .mvp-index { background: linear-gradient(160deg, #8d3858, #ad4c72); }
+    .mvp-stage:nth-child(6) .mvp-index { background: linear-gradient(160deg, #253248, #40516d); }
+
+    .mvp-index .stage { font-size: 14px; font-weight: 800; letter-spacing: .05em; }
+    .mvp-index .name { font-size: 23px; line-height: 1.25; letter-spacing: -.02em; }
+    .mvp-index .time { color: rgba(255,255,255,.78); font-size: 12px; }
+
+    .mvp-body { padding: 24px 26px; }
+    .mvp-body h3 { margin: 0 0 8px; font-size: 22px; }
+    .user-story {
+      margin: 0 0 18px;
+      padding: 12px 15px;
+      border-left: 4px solid var(--brand);
+      border-radius: 0 10px 10px 0;
+      background: #f4f7ff;
+      color: #33415c;
+      font-size: 14px;
+    }
+
+    .mvp-columns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; }
+    .mvp-box h4 {
+      margin: 0 0 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .mvp-box ul { margin: 0; padding-left: 19px; color: var(--muted); font-size: 14px; }
+    .mvp-box li + li { margin-top: 5px; }
+    .mvp-box strong { color: var(--ink); }
+
+    .priority-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .priority-table th, .priority-table td { padding: 13px 14px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    .priority-table th { color: var(--muted); background: #f8fafd; font-size: 12px; letter-spacing: .05em; }
+    .priority-table td { color: var(--muted); }
+    .priority-table td:first-child { color: var(--ink); font-weight: 700; }
+
+    .pill {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: #eef2f8;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .pill.p0 { background: #e7f5ef; color: var(--ok); }
+    .pill.p1 { background: #eef4ff; color: var(--brand-dark); }
+    .pill.p2 { background: #fff1df; color: var(--warn); }
+    .pill.later { background: #eef0f4; color: var(--delay); }
+
+    .risk-card { border-left: 4px solid var(--warn); }
+    .build-card { border-top: 4px solid var(--brand); }
+    .sources ul { margin: 0; padding-left: 20px; color: var(--muted); font-size: 14px; }
+    .sources li + li { margin-top: 7px; }
+
+    .footer {
+      margin-top: 70px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 1000px) {
+      .grid-3, .grid-4, .mvp-columns, .architecture { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .mvp-stage { grid-template-columns: 1fr; }
+      .mvp-index { min-height: 0; }
+    }
+
+    @media (max-width: 680px) {
+      .layout { padding: 0 16px 60px; }
+      .hero { margin: 0 -16px 40px; padding: 58px 22px 48px; }
+      .grid-2, .grid-3, .grid-4, .architecture, .mvp-columns { grid-template-columns: 1fr; }
+      .panel { padding: 18px; }
+      .section-title { font-size: 25px; }
+      .matrix-grid { grid-template-columns: 1fr; }
+      .priority-table { display: block; overflow-x: auto; white-space: nowrap; }
+    }
+
+    @media print {
+      body { background: #fff; }
+      .layout { max-width: none; padding: 0; }
+      .hero { margin: 0; padding: 38px 28px; color: #000; background: #eef3fb; }
+      .hero, .panel, .toc a, .brick-stack { box-shadow: none; }
+      .toc, .section { break-before: auto; }
+      .brick-stack, .mvp-stage, .risk-card { break-inside: avoid; }
+      a { color: inherit; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">深度调研 · 企业落地决策稿</div>
+      <h1>WeKnora 功能矩阵与内部落地 MVP</h1>
+      <p>WeKnora 不只是一个 RAG 问答工具，而是覆盖“资料接入—文档理解—索引检索—Wiki 沉淀—Agent 执行—MCP 消费—权限审计”的企业知识平台。本报告基于官方 v0.9.0 功能、安装与架构文档，面向公司内化与二次开发给出可执行路线。</p>
+      <div class="hero-meta">
+        <span class="hero-pill">研究日期：2026-11-17</span>
+        <span class="hero-pill">官方文档基线：WeKnora v0.9.0</span>
+        <span class="hero-pill">核心结论：先跑通可信知识流，再放大 Agent 能力</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="报告目录">
+    <a href="#executive"><span>01</span>研究摘要</a>
+    <a href="#users"><span>02</span>使用者视角</a>
+    <a href="#architecture"><span>03</span>部署与架构</a>
+    <a href="#matrix"><span>04</span>功能砖块矩阵</a>
+    <a href="#mvp"><span>05</span>内部落地 MVP</a>
+    <a href="#build"><span>06</span>二次开发优先级</a>
+    <a href="#risk"><span>07</span>风险与决策</a>
+    <a href="#sources"><span>08</span>资料来源</a>
+  </nav>
+
+  <main>
+    <section id="executive" class="section">
+      <h2 class="section-title">研究摘要 <small>Executive Summary</small></h2>
+      <p class="section-intro">从公司落地视角看，WeKnora 的价值分为三层：先把知识变成可检索、可追溯的资产；再让 Wiki 和 MCP 把知识输出给员工与外部智能体；最后通过 Agent、技能沙箱与自动化把知识转化为行动。</p>
+      <div class="grid-4">
+        <article class="panel summary-card">
+          <span class="summary-number">29+</span>
+          <h3>功能模块</h3>
+          <p>覆盖租户权限、知识库、解析分块、混合检索、模型、Agent、MCP、Wiki、图谱、数据源、IM、沙箱、自动化等能力。</p>
+        </article>
+        <article class="panel summary-card">
+          <span class="summary-number">3</span>
+          <h3>核心架构进程</h3>
+          <p>Vue 前端、Go 主服务、Python docreader；默认依赖 PostgreSQL/ParadeDB 与 Redis，向量库、图谱、搜索、沙箱均可选。</p>
+        </article>
+        <article class="panel summary-card">
+          <span class="summary-number">MVP1</span>
+          <h3>最小价值闭环</h3>
+          <p>公司内部完成部署后，优先让部门知识库可问答、Wiki 可初始化、外部 MCP 客户端可消费 Wiki。</p>
+        </article>
+        <article class="panel summary-card">
+          <span class="summary-number">4</span>
+          <h3>关键前置治理</h3>
+          <p>版本固定、密钥备份、SSO/邀请制、模型网关与凭据隔离、审计与数据备份，应在扩大使用前完成。</p>
+        </article>
+      </div>
+      <div class="panel" style="margin-top:18px">
+        <h3 style="margin:0 0 10px;font-size:18px">总体判断</h3>
+        <p style="margin:0;color:var(--muted)">建议采用“官方主线 + 少量外围二开”的策略：部署、SSO、备份、监控、模型网关、使用规范和少量连接器先行；避免一开始就深度改内核。这样既能利用上游快速演进，又能把公司资产和定制集中在可维护的边界上。</p>
+      </div>
+    </section>
+
+    <section id="users" class="section">
+      <h2 class="section-title">使用者视角 <small>Who Gets Value First</small></h2>
+      <p class="section-intro">MVP 划分不以技术组件为中心，而以不同用户能否完成高价值任务为中心。</p>
+      <div class="grid-4">
+        <article class="panel role-card">
+          <h3>知识生产者</h3>
+          <p>上传文件、同步外部系统、修正解析错误、维护 FAQ 和 Wiki，并明确资料归属、密级和更新责任。</p>
+        </article>
+        <article class="panel role-card">
+          <h3>知识消费者</h3>
+          <p>在 Web、IM、嵌入页面或 IDE 中提问，获得带来源回答，点击引用回到原文，避免“答案不可验证”。</p>
+        </article>
+        <article class="panel role-card">
+          <h3>平台运营者</h3>
+          <p>管理成员、权限、模型、存储、队列、审计、配额与质量评估，保障知识可信和服务可恢复。</p>
+        </article>
+        <article class="panel role-card">
+          <h3>内部开发者</h3>
+          <p>通过 API、SDK、CLI、MCP 和技能扩展公司系统，把 WeKnora 的知识能力嵌入业务流程。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="architecture" class="section">
+      <h2 class="section-title">部署与架构 <small>Foundation</small></h2>
+      <p class="section-intro">官方推荐团队自托管使用 Docker Compose 或 Kubernetes Helm；Lite 更适合个人验证，不适合公司多人试点。默认 PostgreSQL/ParadeDB 已包含 BM25 与 pgvector，初期无需额外向量库。</p>
+      <div class="panel">
+        <div class="architecture">
+          <div class="arch-column">
+            <span class="arch-badge">核心必需</span>
+            <h3>应用层</h3>
+            <p>Go 后端、Vue 前端、Python docreader。前端反向代理 API；docreader 通过 gRPC 解析文件与网页。</p>
+          </div>
+          <div class="arch-column">
+            <span class="arch-badge">核心必需</span>
+            <h3>数据与任务</h3>
+            <p>ParadeDB 保存业务数据、BM25 与向量索引；Redis 承载 Asynq 异步任务、SSE 恢复、限流和配置广播。</p>
+          </div>
+          <div class="arch-column">
+            <span class="arch-badge">必须规划</span>
+            <h3>模型服务</h3>
+            <p>对话、Embedding、Rerank、视觉、语音模型可混合使用本地 Ollama 与远程 API。更换向量模型需重建索引。</p>
+          </div>
+          <div class="arch-column">
+            <span class="arch-badge">按需启用</span>
+            <h3>扩展组件</h3>
+            <p>Qdrant/Milvus/OpenSearch 等检索引擎、Neo4j 图谱、MinIO/云对象存储、SearXNG、Langfuse、沙箱。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="matrix" class="section">
+      <h2 class="section-title">功能砖块矩阵 <small>Capability Matrix</small></h2>
+      <p class="section-intro">下图按能力域分组：每个深色砖块是功能模块，下方浅色砖块是该模块的关键细节能力。模块背景与细节背景明显区分，便于横向比较和裁剪。</p>
+
+      <div class="matrix-legend" aria-label="图例">
+        <span class="legend-item"><span class="legend-swatch" style="background:var(--foundation)"></span>基础与治理</span>
+        <span class="legend-item"><span class="legend-swatch" style="background:var(--knowledge)"></span>知识与检索</span>
+        <span class="legend-item"><span class="legend-swatch" style="background:var(--intelligence)"></span>模型与智能</span>
+        <span class="legend-item"><span class="legend-swatch" style="background:var(--integration)"></span>集成与生态</span>
+        <span class="legend-item"><span class="legend-swatch" style="background:var(--experience)"></span>体验与运营</span>
+        <span class="legend-item"><span class="legend-swatch" style="background:#fff;border:1px solid var(--line)"></span>模块细节能力</span>
+      </div>
+
+      <div class="area area-foundation">
+        <h3 class="area-title">基础与治理</h3>
+        <div class="matrix-grid">
+          <article class="brick-stack">
+            <div class="module-brick"><h3>租户、用户与认证授权</h3><span class="module-tag">权限底座</span></div>
+            <div class="detail-brick"><strong>工作空间</strong>知识库、模型、智能体、会话和配额归属空间；一个用户可加入多个空间。</div>
+            <div class="detail-brick"><strong>成员角色</strong>Owner、Admin、Contributor、Viewer 四级角色，资源修改还受所有权与共享权限约束。</div>
+            <div class="detail-brick"><strong>组织共享</strong>通过 Organization 连接多个空间，共享知识库与智能体，不自动提升接收方角色。</div>
+            <div class="detail-brick"><strong>认证方式</strong>密码、OIDC 单点登录、JWT 访问/刷新令牌；支持公开、邀请注册和仅邀请模式。</div>
+            <div class="detail-brick"><strong>API Key</strong>按能力授权，可限定知识库范围；与用户 JWT 权限体系分离，适合程序接入。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>平台管理与系统管理员</h3><span class="module-tag">全局控制面</span></div>
+            <div class="detail-brick"><strong>系统管理员</strong>管理全局设置、任务队列、平台 API Key、跨空间审计和用户密码重置。</div>
+            <div class="detail-brick"><strong>首个管理员引导</strong>通过环境变量绑定已注册邮箱，仅在部署尚无管理员时生效。</div>
+            <div class="detail-brick"><strong>运行队列</strong>查看入库、解析、Wiki 等任务积压、失败与重试，可按资料定位进度。</div>
+            <div class="detail-brick"><strong>平台治理</strong>平台级审计、模型目录维护、注册模式、空间策略、SSRF 白名单和默认配额。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>可观测性与审计</h3><span class="module-tag">可运维</span></div>
+            <div class="detail-brick"><strong>健康检查</strong><code>/health</code> 提供存活探针；请求日志通过 X-Request-ID 串联。</div>
+            <div class="detail-brick"><strong>调用追踪</strong>Langfuse 记录 LLM、Embedding、Rerank、VLM、ASR 调用链、Token、延迟与缓存。</div>
+            <div class="detail-brick"><strong>审计</strong>空间审计、知识库活动流、平台审计分别记录资源与配置变化。</div>
+            <div class="detail-brick"><strong>运行诊断</strong>队列面板、死信任务、模型用量、限流和日志轮转辅助定位问题。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>存储后端</h3><span class="module-tag">文件资产</span></div>
+            <div class="detail-brick"><strong>多云存储</strong>支持 local、MinIO、COS、TOS、S3、OSS、KS3、OBS。</div>
+            <div class="detail-brick"><strong>多实例</strong>一个空间可注册多实例，设置默认后端，并可为知识库单独选择存储位置。</div>
+            <div class="detail-brick"><strong>安全管理</strong>访问密钥加密保存，接口掩码显示；保存前进行 SSRF 校验和实际读写测试。</div>
+            <div class="detail-brick"><strong>迁移约束</strong>知识库为空时可改后端；已有文件应新建库迁移，避免路径失配。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>图片与文件对外访问</h3><span class="module-tag">安全链接</span></div>
+            <div class="detail-brick"><strong>内部引用</strong>默认返回 resource handle，需凭登录态、知识库权限或 Embed Token 走代理访问。</div>
+            <div class="detail-brick"><strong>外链模式</strong>可生成短时能力链接或对象存储预签名链接，适合 IM 等无法携带凭证的渠道。</div>
+            <div class="detail-brick"><strong>渠道隔离</strong>Web、IM、Embed、REST API/SDK 各有访问路径，跨空间共享需重新校验归属。</div>
+            <div class="detail-brick"><strong>有效期</strong>短链接和预签名链接有限期，撤销共享不会提前撤销已发出链接。</div>
+          </article>
+        </div>
+      </div>
+
+      <div class="area area-knowledge">
+        <h3 class="area-title">知识与检索</h3>
+        <div class="matrix-grid">
+          <article class="brick-stack">
+            <div class="module-brick"><h3>知识库与知识管理</h3><span class="module-tag">知识资产</span></div>
+            <div class="detail-brick"><strong>库类型</strong>文档库、FAQ 库、Wiki 型知识库；每库可独立配置模型、分块、索引和存储。</div>
+            <div class="detail-brick"><strong>内容接入</strong>文件、网页、手写 Markdown、整目录上传；批量上传显示进度、失败与重试。</div>
+            <div class="detail-brick"><strong>组织整理</strong>文件夹树、多标签、排序、自定义元数据、批量操作、批量下载。</div>
+            <div class="detail-brick"><strong>质量控制</strong>解析时间线、疑似卡住识别、分块编辑与版本历史、图片画廊。</div>
+            <div class="detail-brick"><strong>治理</strong>知识库活动流、存储配额、复制、跨库移动和权限控制。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>文档解析 docreader</h3><span class="module-tag">理解入口</span></div>
+            <div class="detail-brick"><strong>格式覆盖</strong>PDF、Word、PPT、Excel、EPUB、XMind、文本、网页、图片、音频等 25+ 类。</div>
+            <div class="detail-brick"><strong>多模态</strong>扫描件 OCR、图片描述、音频转写；需配置视觉或语音模型。</div>
+            <div class="detail-brick"><strong>引擎可选</strong>按文件类型配置解析引擎，可接 MarkItDown、OpenDataLoader、MinerU、anydoc。</div>
+            <div class="detail-brick"><strong>架构边界</strong>docreader 输出 Markdown 与图片引用，分块、OCR、向量化由主服务完成。</div>
+            <div class="detail-brick"><strong>可追溯</strong>保留原文位置定位，支持引用跳转和高亮。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>分块机制</h3><span class="module-tag">检索质量</span></div>
+            <div class="detail-brick"><strong>自适应策略</strong>先做文档画像，再选择标题感知、启发式边界或递归分块，失败逐级回退。</div>
+            <div class="detail-brick"><strong>参数控制</strong>分块大小、重叠、语言提示、分隔符、Token 上限和单批解析覆盖。</div>
+            <div class="detail-brick"><strong>父子分块</strong>子块用于精准召回，父块补充回答上下文。</div>
+            <div class="detail-brick"><strong>结构保留</strong>标题面包屑、表格表头追踪、图片处理和上下文头。</div>
+            <div class="detail-brick"><strong>调试</strong>提供分块预览接口，不写入数据库。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>检索引擎与向量存储</h3><span class="module-tag">召回底座</span></div>
+            <div class="detail-brick"><strong>默认引擎</strong>PostgreSQL/ParadeDB 同时提供 pgvector 向量与 BM25 关键词检索。</div>
+            <div class="detail-brick"><strong>可选引擎</strong>SQLite、ES v7/v8、OpenSearch、Qdrant、Milvus、Weaviate、Doris、腾讯云 VectorDB。</div>
+            <div class="detail-brick"><strong>混合检索</strong>向量与关键词独立召回，RRF 排名融合，可调权重和平滑参数。</div>
+            <div class="detail-brick"><strong>重排</strong>支持 Rerank 模型，多模态命中可交给支持视觉的重排模型评估。</div>
+            <div class="detail-brick"><strong>约束</strong>向量维度需匹配，切换引擎或模型需重建索引；向量存储建库后不可改。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>Wiki 能力</h3><span class="module-tag">知识沉淀</span></div>
+            <div class="detail-brick"><strong>自动生成</strong>入库后异步抽取人物、产品、概念，生成带来源引用的 Markdown 页面。</div>
+            <div class="detail-brick"><strong>抽取粒度</strong>focused、standard、exhaustive 三档；可关闭自动生成，仅保留手工维护。</div>
+            <div class="detail-brick"><strong>浏览</strong>目录树、页面图、分组主题、搜索、页面类型筛选和来源追溯。</div>
+            <div class="detail-brick"><strong>编辑治理</strong>人工编辑、智能体修改、版本比较、回滚、活动记录和失败恢复。</div>
+            <div class="detail-brick"><strong>Agent 工具</strong>搜索、读取、整页写、局部替换、重命名、删除、问题标记与处理。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>FAQ 能力</h3><span class="module-tag">标准问答</span></div>
+            <div class="detail-brick"><strong>条目结构</strong>标准问、相似问、反例问、多答案，可分类、停用和禁止推荐。</div>
+            <div class="detail-brick"><strong>批量维护</strong>CSV/JSON 导入导出，支持追加、替换、dry-run 和失败原因。</div>
+            <div class="detail-brick"><strong>去重</strong>基于内容归一化与哈希合并重复条目，复制共享时保持同步机制。</div>
+            <div class="detail-brick"><strong>命中策略</strong>向量、关键词、标签优先级共同参与；反例问可排除误命中。</div>
+            <div class="detail-brick"><strong>调试</strong>命中结果展示匹配问题、得分和类型，便于补相似问和阈值。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>知识图谱</h3><span class="module-tag">GraphRAG</span></div>
+            <div class="detail-brick"><strong>存储依赖</strong>Neo4j 与 APOC 插件；全局开关和知识库开关需同时启用。</div>
+            <div class="detail-brick"><strong>构建</strong>异步任务按分块抽取实体和关系，同名实体合并，删除资料时清理节点和关系。</div>
+            <div class="detail-brick"><strong>检索增强</strong>从问题抽取实体，沿图谱补充关联分块；Agent 也可主动查询图谱。</div>
+            <div class="detail-brick"><strong>领域配置</strong>Few-shot 示例、关系标签、实体关系示例和自定义抽取指令。</div>
+            <div class="detail-brick"><strong>成本</strong>每个分块一次模型调用，是较昂贵的增强扇出，适合高关系密度资料。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>数据源导入</h3><span class="module-tag">持续同步</span></div>
+            <div class="detail-brick"><strong>连接器</strong>飞书/Lark、Notion、Confluence、语雀、钉钉、IMA、GitLab、Seafile、Nextcloud、RSS/Atom。</div>
+            <div class="detail-brick"><strong>同步机制</strong>首次全量，后续按游标和修改时间增量；支持周期 Cron 和手动同步。</div>
+            <div class="detail-brick"><strong>删除对账</strong>按连接器能力和同步配置处理源端删除，避免误删或漏删。</div>
+            <div class="detail-brick"><strong>安全</strong>凭据加密存储，连接地址经过 SSRF 校验，可配置白名单。</div>
+            <div class="detail-brick"><strong>运维</strong>同步状态、日志、失败原因、暂停恢复和可恢复检查点。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>飞书云盘接入</h3><span class="module-tag">云盘连接器</span></div>
+            <div class="detail-brick"><strong>应用身份</strong>使用企业自建应用与文件夹授权，避免直接暴露个人账号。</div>
+            <div class="detail-brick"><strong>范围选择</strong>可同步指定云盘文件夹及其后续子内容。</div>
+            <div class="detail-brick"><strong>解析模式</strong>按文件类型选择下载原文件或转换后导入，图片和音频能力取决于模型配置。</div>
+            <div class="detail-brick"><strong>权限边界</strong>应用需能读取目标目录，凭证变更需完整重新提交。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>Seafile 接入</h3><span class="module-tag">私有网盘</span></div>
+            <div class="detail-brick"><strong>认证</strong>使用账号与 API Token，只同步 Token 可访问的资料库。</div>
+            <div class="detail-brick"><strong>指纹同步</strong>按对象 ID、修改时间和大小判断变化，未变文件跳过下载。</div>
+            <div class="detail-brick"><strong>断点续传</strong>每 50 次游标变更、删除前和结束时保存检查点，适合大目录。</div>
+            <div class="detail-brick"><strong>限制</strong>不支持加密资料库、SeaDoc 双向同步和自定义属性；超限文件跳过。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>Nextcloud 接入</h3><span class="module-tag">WebDAV</span></div>
+            <div class="detail-brick"><strong>认证</strong>推荐使用 Nextcloud 应用密码，而非账号登录密码。</div>
+            <div class="detail-brick"><strong>范围</strong>通过资源树选择文件夹或文件，支持扩展名包含与排除。</div>
+            <div class="detail-brick"><strong>一致性</strong>使用 ETag、修改时间、大小和文件 ID 指纹，下载时校验一致性。</div>
+            <div class="detail-brick"><strong>网络</strong>所有请求经过共享 SSRF 防护，私有部署需加入白名单。</div>
+          </article>
+        </div>
+      </div>
+
+      <div class="area area-intelligence">
+        <h3 class="area-title">模型与智能</h3>
+        <div class="matrix-grid">
+          <article class="brick-stack">
+            <div class="module-brick"><h3>模型管理</h3><span class="module-tag">模型抽象</span></div>
+            <div class="detail-brick"><strong>模型类型</strong>对话、向量、重排、视觉、语音五类分别配置和引用。</div>
+            <div class="detail-brick"><strong>本地与远程</strong>支持 Ollama 与多家远程厂商，也支持 OpenAI 兼容接口和企业网关请求头。</div>
+            <div class="detail-brick"><strong>目录与验证</strong>内置厂商模型目录、上下文/能力信息、连接测试和实际调用方式预览。</div>
+            <div class="detail-brick"><strong>空间默认</strong>可设置默认对话、辅助任务、向量、重排、视觉和语音模型。</div>
+            <div class="detail-brick"><strong>运维</strong>引用检查、模型调试器、用量统计、并发限流和配置叠加。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>Agent 引擎</h3><span class="module-tag">多步推理</span></div>
+            <div class="detail-brick"><strong>两种模式</strong>快速问答面向事实查询；智能推理面向跨文档、联网和工具操作。</div>
+            <div class="detail-brick"><strong>自定义智能体</strong>配置模型、提示词、知识库范围、MCP、技能、联网搜索和工具白名单。</div>
+            <div class="detail-brick"><strong>内置工具</strong>知识检索、文档阅读、图谱查询、数据分析、Wiki 维护、MCP、浏览器和文件工具等。</div>
+            <div class="detail-brick"><strong>上下文管理</strong>任务计划、Sequential Thinking、历史压缩、检索结果占位和溢出恢复。</div>
+            <div class="detail-brick"><strong>协作</strong>多智能体分派子任务、汇总结果，但不扩大权限边界。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>MCP 集成</h3><span class="module-tag">双向工具</span></div>
+            <div class="detail-brick"><strong>作为客户端</strong>接入外部 SSE/Streamable HTTP MCP 服务，不支持 stdio。</div>
+            <div class="detail-brick"><strong>安全认证</strong>API Key、Bearer、OAuth 2.0、动态客户端注册、PKCE 和会话内授权。</div>
+            <div class="detail-brick"><strong>工具治理</strong>按工具启停、人工审批、用途说明、AI 生成说明和目录按需加载。</div>
+            <div class="detail-brick"><strong>作为服务端</strong>按空间创建 MCP 端点，独立令牌、知识库范围、工具白名单和限流。</div>
+            <div class="detail-brick"><strong>暴露能力</strong>检索阅读、ask 问答、Wiki 搜索/读取/整理、文档写入；默认仅开放只读。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>技能目录与沙箱</h3><span class="module-tag">执行环境</span></div>
+            <div class="detail-brick"><strong>技能包</strong>由 SKILL.md、脚本、模板和资料组成，可来自 ZIP、ClawHub、GitHub、GitLab 等。</div>
+            <div class="detail-brick"><strong>安装治理</strong>目录登记、按沙箱安装、依赖校验、失败重试、升级回滚和停用卸载。</div>
+            <div class="detail-brick"><strong>沙箱后端</strong>Docker、CubeSandbox、E2B，以及 Lite/macOS 本机 Seatbelt 沙箱。</div>
+            <div class="detail-brick"><strong>网络策略</strong>可默认拒绝出站，再按 IP、CIDR、域名和 Host/SNI 规则放行。</div>
+            <div class="detail-brick"><strong>产物体验</strong>输入/输出目录、后台命令、终端、桌面、文件预览、下载和删除。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>跨会话长期记忆</h3><span class="module-tag">个性化</span></div>
+            <div class="detail-brick"><strong>隔离</strong>按空间和调用者身份隔离，IM 用户、嵌入访客和登录用户分别维护。</div>
+            <div class="detail-brick"><strong>模式</strong>仅明确记住，或后台自动提取；空间、个人和智能体开关共同生效。</div>
+            <div class="detail-brick"><strong>内容类型</strong>资料、偏好、事实、事项、兴趣，以及待确认条目。</div>
+            <div class="detail-brick"><strong>管理</strong>新增、修改、确认、拒绝、删除、主题提升、文档偏好、整理、导出和清空。</div>
+            <div class="detail-brick"><strong>边界</strong>影响问题理解和资料选择，不扩展知识库访问权限。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>WeKnora 助手</h3><span class="module-tag">内置助手</span></div>
+            <div class="detail-brick"><strong>产品帮助</strong>检索当前版本产品文档，解释功能、配置和故障排查。</div>
+            <div class="detail-brick"><strong>页面上下文</strong>理解当前知识库、文档、智能体或设置页中的“这里”“这份文档”。</div>
+            <div class="detail-brick"><strong>任务代办</strong>以当前用户身份创建智能体、维护内容、调整配置、诊断问题和创建自动化。</div>
+            <div class="detail-brick"><strong>权限</strong>不获得额外管理员权限，默认建议“修改前确认”。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>自动化</h3><span class="module-tag">持续任务</span></div>
+            <div class="detail-brick"><strong>计划</strong>一次性或 Cron 周期执行，最小间隔 5 分钟，可明确时区和后续运行预览。</div>
+            <div class="detail-brick"><strong>执行</strong>由 WeKnora 助手执行，可指定模型，也可在任务说明中安排其他智能体分工。</div>
+            <div class="detail-brick"><strong>运行控制</strong>暂停、恢复、手动运行、查看记录、打开会话和让助手分析结果。</div>
+            <div class="detail-brick"><strong>可靠性</strong>错过执行、重叠执行、执行时长、审批等待、成功通知和连续失败暂停。</div>
+            <div class="detail-brick"><strong>容量</strong>默认每空间 100 个任务，每进程并发 4 个，每任务保留 200 条运行记录。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>执行权限与审批</h3><span class="module-tag">行动安全</span></div>
+            <div class="detail-brick"><strong>三档权限</strong>只读、修改前确认、自动执行；破坏性操作仍需确认。</div>
+            <div class="detail-brick"><strong>风险分级</strong>读取、探测、写入、破坏性操作分别判断允许、拒绝或询问。</div>
+            <div class="detail-brick"><strong>审批持久化</strong>刷新页面后可继续处理挂起事项，不确定结果不自动重放。</div>
+            <div class="detail-brick"><strong>范围授权</strong>会话授权与自动化授权限定操作和资源，不替代角色与资源鉴权。</div>
+          </article>
+        </div>
+      </div>
+
+      <div class="area area-integration">
+        <h3 class="area-title">集成与生态</h3>
+        <div class="matrix-grid">
+          <article class="brick-stack">
+            <div class="module-brick"><h3>IM 集成</h3><span class="module-tag">工作入口</span></div>
+            <div class="detail-brick"><strong>平台</strong>企业微信、飞书/Lark、钉钉、Slack、Telegram、Mattermost、微信、QQ、云之家等 10 类。</div>
+            <div class="detail-brick"><strong>接入模式</strong>Webhook 与 WebSocket/长连接，按平台支持流式回复、文件下载和线程话题。</div>
+            <div class="detail-brick"><strong>命令</strong>/help、/info、/search、/stop、/clear，用于帮助、范围查看、原文检索和会话控制。</div>
+            <div class="detail-brick"><strong>文件体验</strong>IM 文件可导入知识库，回答图片需转换成 IM 可访问外链。</div>
+            <div class="detail-brick"><strong>授权</strong>IM 场景的 MCP OAuth 通过一次性授权链接绑定 IM 用户身份。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>网页嵌入</h3><span class="module-tag">对外挂件</span></div>
+            <div class="detail-brick"><strong>接入形态</strong>悬浮挂件、iframe 和编程式 API，可设置位置、主题色、标题和语言。</div>
+            <div class="detail-brick"><strong>安全模式</strong>业务后端持有发布 Token，换取短效访客 Token，避免 Token 暴露在浏览器。</div>
+            <div class="detail-brick"><strong>访问控制</strong>绑定智能体、域名白名单和限流；服务端丢弃访客尝试覆盖模型与资料范围。</div>
+            <div class="detail-brick"><strong>历史</strong>浏览器内最近 30 个有消息会话，按渠道、智能体和匿名访客隔离。</div>
+            <div class="detail-brick"><strong>集成</strong>Webhook 回调、postMessage Bridge、上下文注入和渠道文件代理。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>网络搜索与网页抓取</h3><span class="module-tag">外部信息</span></div>
+            <div class="detail-brick"><strong>搜索引擎</strong>16 个提供商，包括 DuckDuckGo、Google、Bing、Tavily、百度、智谱、SearXNG 等。</div>
+            <div class="detail-brick"><strong>自托管</strong>SearXNG 可作为免 Key 搜索后端，需要正确配置密钥、网络和 SSRF 白名单。</div>
+            <div class="detail-brick"><strong>读页</strong>Readability 正文抽取、Markdown 转换、Chromium 动态页面兜底和分页续读。</div>
+            <div class="detail-brick"><strong>安全</strong>除 SearXNG 外端点固定，所有出站请求经过 SSRF、DNS 与重定向校验。</div>
+            <div class="detail-brick"><strong>审计</strong>网页正文保存为会话绑定文件，可跨轮读取并追踪来源。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>开放生态与客户端</h3><span class="module-tag">开发者入口</span></div>
+            <div class="detail-brick"><strong>HTTP API</strong><code>/api/v1</code> 支持 JWT、API Key、Embed Token 与 MCP 端点令牌。</div>
+            <div class="detail-brick"><strong>官方客户端</strong>Web、CLI、Go SDK、微信小程序、桌面端、Chrome 插件等生态入口。</div>
+            <div class="detail-brick"><strong>本机浏览器</strong>通过浏览器扩展和 WebSocket 操作用户已连接浏览器，适合受授权网页任务。</div>
+            <div class="detail-brick"><strong>二次开发</strong>可用 API/SDK/CLI 做外围集成，或按源码扩展解析器、连接器和 Agent 工具。</div>
+          </article>
+        </div>
+      </div>
+
+      <div class="area area-experience">
+        <h3 class="area-title">体验与运营</h3>
+        <div class="matrix-grid">
+          <article class="brick-stack">
+            <div class="module-brick"><h3>会话与对话体验</h3><span class="module-tag">日常使用</span></div>
+            <div class="detail-brick"><strong>过程可视</strong>附件解析、检索、工具调用、生成阶段、思考过程和后台任务进度。</div>
+            <div class="detail-brick"><strong>引用溯源</strong>引用角标、来源面板、原文跳转高亮，覆盖 PDF、Office、表格、音频和网页。</div>
+            <div class="detail-brick"><strong>上下文操作</strong>@知识库、文档、标签、技能和 MCP；支持未读标记、追问建议和思考强度。</div>
+            <div class="detail-brick"><strong>过程干预</strong>生成中补充要求、停止回答、从历史消息分叉或回滚，并恢复沙箱检查点。</div>
+            <div class="detail-brick"><strong>资产管理</strong>附件按需读取、生成文件预览下载、回答存入知识库、历史搜索和 Markdown 导出。</div>
+          </article>
+
+          <article class="brick-stack">
+            <div class="module-brick"><h3>评估能力</h3><span class="module-tag">质量闭环</span></div>
+            <div class="detail-brick"><strong>数据集</strong>使用 queries、corpus、answers、qrels、qas 五类 Parquet 文件。</div>
+            <div class="detail-brick"><strong>评估任务</strong>复制参考知识库配置，逐题执行检索与生成，输出任务进度和错误信息。</div>
+            <div class="detail-brick"><strong>检索指标</strong>Precision、Recall、NDCG@3/@10、MRR、MAP。</div>
+            <div class="detail-brick"><strong>生成指标</strong>BLEU-1/2/4、ROUGE-1/2/L。</div>
+            <div class="detail-brick"><strong>限制</strong>当前无独立界面，通过 API 发起和轮询；结果存内存，重启丢失。</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="mvp" class="section">
+      <h2 class="section-title">公司内部落地 MVP <small>User-First Roadmap</small></h2>
+      <p class="section-intro">MVP 从“用户能完成什么”划分，而不是从“哪个组件先上线”划分。每个阶段都包含用户结果、交付范围、验收标准和明确暂缓项，避免试点变成功能堆砌。</p>
+
+      <div class="mvp-track">
+        <article class="mvp-stage">
+          <div class="mvp-index">
+            <span class="stage">MVP 0</span>
+            <span class="name">安全可用试点</span>
+            <span class="time">建议 0—2 周</span>
+          </div>
+          <div class="mvp-body">
+            <h3>先成功部署，并让一个试点团队获得可追溯回答</h3>
+            <p class="user-story">作为试点成员，我可以用公司账号登录，上传一份部门 PDF，提出问题后看到答案和原文引用。</p>
+            <div class="mvp-columns">
+              <div class="mvp-box">
+                <h4>交付范围</h4>
+                <ul>
+                  <li>Docker Compose 或 Helm 部署 app、frontend、docreader、PostgreSQL/ParadeDB、Redis。</li>
+                  <li>配置 HTTPS、固定版本、环境密钥、备份和恢复演练。</li>
+                  <li>启用 OIDC 或邀请注册，创建系统管理员和一个试点工作空间。</li>
+                  <li>接通对话与 Embedding 模型，优先配置 Rerank。</li>
+                  <li>上传 20—50 份代表文档，验证解析、分块、混合检索和引用。</li>
+                </ul>
+              </div>
+              <div class="mvp-box">
+                <h4>验收标准</h4>
+                <ul>
+                  <li>核心服务健康检查全部通过，重启后数据与任务可恢复。</li>
+                  <li>非管理员不能访问未授权知识库。</li>
+                  <li>试点文档解析成功率 ≥95%，失败原因可定位。</li>
+                  <li>10 个业务问题中，至少 7 个能给出正确且可点击溯源的答案。</li>
+                </ul>
+              </div>
+              <div class="mvp-box">
+                <h4>明确暂缓</h4>
+                <ul>
+                  <li>Neo4j 图谱、技能沙箱、自动化、多智能体。</li>
+                  <li>IM 和外部网页嵌入。</li>
+                  <li>大规模向量库迁移和多存储后端。</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="mvp-stage">
+          <div class="mvp-index">
+            <span class="stage">MVP 1</span>
+            <span class="name">核心知识闭环</span>
+            <span class="time">建议 2—6 周</span>
+          </div>
+          <div class="mvp-body">
+            <h3>跑通“知识入库 → Wiki 初始化 → MCP 对外消费”</h3>
+            <p class="user-story">作为部门知识负责人，我可以批量整理资料并生成 Wiki；作为开发者和外部智能体用户，我可以在 IDE 中通过 MCP 检索和阅读这批 Wiki。</p>
+            <div class="mvp-columns">
+              <div class="mvp-box">
+                <h4>交付范围</h4>
+                <ul>
+                  <li>建立部门知识库模板：文件夹、标签、密级、负责人、文档类型和更新周期。</li>
+                  <li>批量上传/目录上传，配置默认分块、解析引擎和混合检索。</li>
+                  <li>开启 Wiki，选用 standard 粒度，完成首批 Wiki 初始化和人工修正。</li>
+                  <li>创建内部 MCP 端点：默认只开放检索阅读、ask 和 Wiki 工具，限定知识库范围与限流。</li>
+                  <li>接入 Cursor、Claude Code、VS Code Copilot 或公司内部 Agent 消费 MCP。</li>
+                  <li>提供员工使用说明、示例问题和 Token 管理规范。</li>
+                </ul>
+              </div>
+              <div class="mvp-box">
+                <h4>验收标准</h4>
+                <ul>
+                  <li>新知识负责人 30 分钟内可完成建库、上传、检查解析状态和修正明显分块错误。</li>
+                  <li>首批文档 Wiki 生成完成，页面有来源引用，可搜索、编辑和回滚。</li>
+                  <li>外部 MCP 客户端可 list/search/read Wiki，且只能看到授权范围。</li>
+                  <li>MCP Token 可轮换，端点可停用；调用有审计或指标可查。</li>
+                </ul>
+              </div>
+              <div class="mvp-box">
+                <h4>明确暂缓</h4>
+                <ul>
+                  <li>MCP 写入工具默认关闭。</li>
+                  <li>外部第三方 MCP 工具接入。</li>
+                  <li>图谱、沙箱和自动化。</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="mvp-stage">
+          <div class="mvp-index">
+            <span class="stage">MVP 2</span>
+            <span class="name">日常治理与质量</span>
+            <span class="time">建议 6—10 周</span>
+          </div>
+          <div class="mvp-body">
+            <h3>让知识能持续更新、可评估、可追责</h3>
+            <p class="user-story">作为平台运营者，我可以知道资料从哪里来、谁改过、质量是否变好，以及失败任务如何处理。</p>
+            <div class="mvp-columns">
+              <div class="mvp-box">
+                <h4>交付范围</h4>
+                <ul>
+                  <li>接入一个最高价值数据源，例如飞书、Confluence、Notion 或公司文档平台，配置周期同步和删除策略。</li>
+                  <li>为高频问题建立 FAQ 库，导入标准问、相似问和反例问。</li>
+                  <li>建立评估集，比较分块、模型、Rerank 和 RRF 参数。</li>
+                  <li>启用 Langfuse、审计日志、模型用量、队列监控和告警。</li>
+                  <li>制定知识责任人、密级、过期、纠错和 Wiki 审核流程。</li>
+                </ul>
+              </div>
+              <div class="mvp-box">
+                <h4>验收标准</h4>
+                <ul>
+                  <li>源端新增/修改/删除能在约定周期内反映到知识库，异常有日志。</li>
+                  <li>FAQ 命中率与误命中可通过命中详情持续优化。</li>
+                  <li>每次检索配置变更都有同一评估集对比结果。</li>
+                  <li>管理员能回答：谁改了什么、失败卡在哪、模型花了多少。</li>
+                </ul>
+              </div>
+              <div class="mvp-box">
+                <h4>明确暂缓</h4>
+                <ul>
+                  <li>多数据源全面铺开。</li>
+                  <li>复杂图谱和跨库知识合并。</li>
+                  <li>全公司强制迁移历史文档。</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="mvp-stage">
+          <div class="mvp-index">
+            <span class="stage">MVP 3</span>
+            <span class="name">员工工作入口</span>
+            <span class="time">建议 10—14 周</span>
+          </div>
+          <div class="mvp-body">
+            <h3>把知识问答放进员工已有工作台</h3>
+            <p class="user-story">作为一线员工，我不用打开新系统，在 IM、内部门户或 IDE 中就能问知识库并拿到来源。</p>
+            <div class="mvp-columns">
+              <div class="mvp-box">
+                <h4>交付范围</h4>
+                <ul>
+                  <li>选择一个主渠道：企业 IM 机器人、内部门户嵌入挂件，或 IDE/API 集成。</li>
+                  <li>创建场景智能体：售前、研发、客服、行政或项目知识助手。</li>
+                  <li>为智能体限定模型、知识库、FAQ、提示词和默认工具。</li>
+                  <li>启用 @提及、附件提问、引用溯源、会话历史和未读提醒。</li>
+                  <li>对渠道配置域名白名单、限流、回复语言和权限范围。</li>
+                </ul>
+              </div>
+              <div class="mvp-box">
+                <h4>验收标准</h4>
+                <ul>
+                  <li>目标团队周活跃使用者达到约定比例。</li>
+                  <li>渠道回答与 Web 回答使用同一权限和知识范围。</li>
+                  <li>敏感知识不会因 IM、嵌入或 API 渠道越权暴露。</li>
+                  <li>至少 3 个高频场景形成可复制智能体模板。</li>
+                </ul>
+              </div>
+              <div class="mvp-box">
+                <h4>明确暂缓</h4>
+                <ul>
+                  <li>全平台 IM 同时开通。</li>
+                  <li>匿名外部门户。</li>
+                  <li>自动化执行写操作。</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="mvp-stage">
+          <div class="mvp-index">
+            <span class="stage">MVP 4</span>
+            <span class="name">智能体与自动化</span>
+            <span class="time">建议 14—22 周</span>
+          </div>
+          <div class="mvp-body">
+            <h3>让知识从“被查询”升级为“能执行”</h3>
+            <p class="user-story">作为业务负责人，我可以让智能体按计划汇总资讯、检查知识库质量或调用内部系统，但写入和破坏性操作必须经过审批。</p>
+            <div class="mvp-columns">
+              <div class="mvp-box">
+                <h4>交付范围</h4>
+                <ul>
+                  <li>接入公司内部 MCP 工具：工单、CRM、项目管理、代码平台或浏览器。</li>
+                  <li>为高价值重复任务创建自动化：资讯日报、知识质检、FAQ 建议、文档状态巡检。</li>
+                  <li>启用技能沙箱，管理技能包、网络出站、环境变量和文件产物。</li>
+                  <li>在受控场景启用多智能体协作、联网搜索和数据分析。</li>
+                  <li>统一执行权限：默认只读或修改前确认，破坏性操作逐次审批。</li>
+                </ul>
+              </div>
+              <div class="mvp-box">
+                <h4>验收标准</h4>
+                <ul>
+                  <li>每个自动化任务有清晰输入、资料范围、产物、成功标准和失败处理。</li>
+                  <li>外部工具调用可审计、可停止、可撤销授权。</li>
+                  <li>沙箱无法访问未授权凭据和内网地址。</li>
+                  <li>至少 2 个周期任务替代人工重复工作，并可评估节省时间。</li>
+                </ul>
+              </div>
+              <div class="mvp-box">
+                <h4>明确暂缓</h4>
+                <ul>
+                  <li>无审批的自动写入。</li>
+                  <li>长期记忆全量开启。</li>
+                  <li>跨系统大规模编排。</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="mvp-stage">
+          <div class="mvp-index">
+            <span class="stage">MVP 5</span>
+            <span class="name">规模化与产品化</span>
+            <span class="time">22 周后滚动</span>
+          </div>
+          <div class="mvp-body">
+            <h3>形成公司级知识平台与可持续二开体系</h3>
+            <p class="user-story">作为公司平台团队，我可以安全地把 WeKnora 从试点扩展到多部门，保持升级、隔离、成本和服务质量可控。</p>
+            <div class="mvp-columns">
+              <div class="mvp-box">
+                <h4>交付范围</h4>
+                <ul>
+                  <li>Kubernetes 多副本、队列与存储分层、备份恢复、灾备和 SLA。</li>
+                  <li>模型网关、预算、限流、Token 治理和供应商降级策略。</li>
+                  <li>多工作空间与组织共享规范，明确数据边界、密级和跨部门共享审批。</li>
+                  <li>公司定制：统一登录、DLP、密级标签、知识责任人看板、质量门禁。</li>
+                  <li>上游版本跟踪、补丁管理、内部 fork 策略和回归测试集。</li>
+                </ul>
+              </div>
+              <div class="mvp-box">
+                <h4>验收标准</h4>
+                <ul>
+                  <li>支持目标用户规模和并发问答，关键链路有明显监控和告警。</li>
+                  <li>升级前有兼容清单、数据库备份、灰度方案和回滚演练。</li>
+                  <li>知识质量、活跃度、MCP 调用、模型成本有月度报表。</li>
+                  <li>跨部门共享必须经过审批，并能追溯授权来源。</li>
+                </ul>
+              </div>
+              <div class="mvp-box">
+                <h4>明确暂缓</h4>
+                <ul>
+                  <li>没有评估集和回滚方案的重大内核改动。</li>
+                  <li>未经安全评审的公网匿名访问。</li>
+                  <li>无法解释来源的自动知识写入。</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="build" class="section">
+      <h2 class="section-title">二次开发优先级 <small>Customization Backlog</small></h2>
+      <p class="section-intro">优先做外围集成和治理增强，少改核心表结构与检索管线；确需改内核时，用小补丁、清晰测试和升级清单管理。</p>
+      <div class="panel" style="overflow-x:auto">
+        <table class="priority-table">
+          <thead>
+            <tr><th>优先级</th><th>方向</th><th>建议内容</th><th>落地阶段</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="pill p0">P0</span></td><td>部署与安全</td><td>自动化部署、密钥托管、SSO、HTTPS、备份恢复、审计导出、管理员双人和操作留痕。</td><td>MVP0</td></tr>
+            <tr><td><span class="pill p0">P0</span></td><td>模型网关</td><td>统一模型 Key、代理、配额、审计、脱敏、降级和成本统计；避免各部门直接填供应商 Key。</td><td>MVP0—1</td></tr>
+            <tr><td><span class="pill p1">P1</span></td><td>知识治理</td><td>部门建库模板、密级字段、责任人、过期提醒、Wiki 审核流、错误反馈入口和删除审批。</td><td>MVP1—2</td></tr>
+            <tr><td><span class="pill p1">P1</span></td><td>质量看板</td><td>把评估任务、FAQ 命中、引用点击、失败解析、用户反馈和模型成本做成运营看板。</td><td>MVP2</td></tr>
+            <tr><td><span class="pill p1">P1</span></td><td>MCP 自服务</td><td>按部门申请端点、自动配置最小权限、Token 轮换提醒、调用报表和吊销流程。</td><td>MVP1—3</td></tr>
+            <tr><td><span class="pill p2">P2</span></td><td>企业连接器</td><td>优先补公司主文档平台、代码平台、工单系统或权限系统连接器；统一 SSRF 白名单和凭据管理。</td><td>MVP2—4</td></tr>
+            <tr><td><span class="pill p2">P2</span></td><td>评估界面</td><td>官方评估暂无 UI 且结果在内存中；可二开持久化任务、数据集管理、对比报表和回归门禁。</td><td>MVP2—5</td></tr>
+            <tr><td><span class="pill later">Later</span></td><td>高级智能</td><td>图谱、技能沙箱、自动化、多智能体和长期记忆需在权限、成本、审计和使用规范成熟后开启。</td><td>MVP4+</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="risk" class="section">
+      <h2 class="section-title">风险与决策 <small>Key Risks</small></h2>
+      <div class="grid-2">
+        <article class="panel risk-card">
+          <h3>索引重建成本高</h3>
+          <p>向量模型、维度、检索引擎和知识库向量存储存在绑定关系，切换常需重建索引。应在 MVP0 固定试点模型组合，并保留评估集用于变更验证。</p>
+        </article>
+        <article class="panel risk-card">
+          <h3>高级能力带来权限放大</h3>
+          <p>Agent、MCP、沙箱、自动化会把“读知识”变成“执行操作”。必须先落地最小权限、审批、网络隔离、审计和可撤销授权。</p>
+        </article>
+        <article class="panel risk-card">
+          <h3>数据源同步边界复杂</h3>
+          <p>不同连接器在删除检测、增量、限流、格式和失败恢复上能力不同。先选一个高价值源做深，不应追求一次性接入全部平台。</p>
+        </article>
+        <article class="panel risk-card">
+          <h3>上游演进快</h3>
+          <p>WeKnora 功能密集且版本更新快。公司应固定版本、维护内部补丁和升级清单，避免直接跟踪 latest 造成不可控迁移。</p>
+        </article>
+        <article class="panel risk-card">
+          <h3>模型成本不可见</h3>
+          <p>Wiki、图谱、摘要、记忆和自动化都会放大模型调用。先接 Langfuse/模型网关统计，再逐步开启高成本功能。</p>
+        </article>
+        <article class="panel risk-card">
+          <h3>质量缺反馈闭环</h3>
+          <p>如果只看“能回答”，无法判断知识是否可信。应从第一天收集问题、命中率、引用点击、纠错和用户满意度。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="sources" class="section sources">
+      <h2 class="section-title">资料来源 <small>References</small></h2>
+      <div class="panel">
+        <ul>
+          <li><a href="https://weknora.weixin.qq.com/docs/03-features/" target="_blank" rel="noopener">WeKnora 官方功能模块总览</a>：本次功能矩阵的主要依据。</li>
+          <li><a href="https://weknora.weixin.qq.com/docs/01-getting-started/01-introduction" target="_blank" rel="noopener">WeKnora 产品介绍</a>：产品定位、核心概念、功能清单和生态客户端。</li>
+          <li><a href="https://weknora.weixin.qq.com/docs/01-getting-started/02-installation" target="_blank" rel="noopener">WeKnora 安装部署</a>：Compose/Helm/Lite 部署形态、依赖和核心服务。</li>
+          <li><a href="https://weknora.weixin.qq.com/docs/02-architecture/01-overview" target="_blank" rel="noopener">WeKnora 总体架构</a>：核心进程、可选组件、技术栈和通信链路。</li>
+          <li>功能分册：租户授权、知识库、docreader、分块、检索、模型、Agent、MCP、知识图谱、数据源、网络搜索、IM、Embed、Wiki、评估、可观测、FAQ、会话、存储、平台管理、文件访问、技能沙箱、长期记忆、飞书云盘、Seafile、Nextcloud、助手、自动化、执行权限。</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>报告生成时间：2026-11-17 · 基于 WeKnora v0.9.0 官方文档整理 · 本地 HTML，无外部脚本与样式依赖，可直接浏览器打开或打印为 PDF。</p>
+  </footer>
+</div>
+</body>
+</html>
