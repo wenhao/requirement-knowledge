@@ -321,7 +321,7 @@ learning_session:
   confirmed_at: null
   evidence:
     - step: 1
-      artifact: 交付方案/订单需求攻坚学习输出-v1.md
+      artifact: 04-AI-Coding与SDD/订单需求攻坚学习输出-v1.md
       self_check_score: 92
       human_confirmation: true
 ```

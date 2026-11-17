@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WeKnora 知识库评测方案：一页看懂版 v1.3</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #5d6b82;
+      --line: #dfe5ef;
+      --paper: #fff;
+      --page: #f4f7fb;
+      --brand: #155eef;
+      --brand-dark: #0b3fa8;
+      --path: #0f6b64;
+      --set: #57419a;
+      --ok: #147d64;
+      --warn: #b25b00;
+      --bad: #b42318;
+      --shadow: 0 12px 35px rgba(23, 32, 51, .08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.72;
+    }
+    a { color: var(--brand); }
+    .layout { max-width: 1120px; margin: 0 auto; padding: 0 24px 76px; }
+    .hero {
+      margin: 0 -24px 44px;
+      padding: 70px 44px 55px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 84% 8%, rgba(83,176,255,.38), transparent 30%),
+        linear-gradient(135deg, #081a35, #123b74 48%, #155eef);
+    }
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 18px;
+      padding: 7px 13px;
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 999px;
+      background: rgba(255,255,255,.1);
+      font-size: 13px;
+    }
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(32px, 5vw, 54px);
+      line-height: 1.14;
+      letter-spacing: -.035em;
+    }
+    .hero p { max-width: 850px; margin: 0; color: rgba(255,255,255,.86); font-size: 18px; }
+    .hero-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .hero-pills span { padding: 8px 13px; border-radius: 9px; background: rgba(255,255,255,.11); font-size: 13px; }
+
+    .section { margin-bottom: 58px; }
+    h2 {
+      margin: 0 0 8px;
+      font-size: 29px;
+      line-height: 1.25;
+      letter-spacing: -.025em;
+    }
+    h2 small { color: var(--muted); font-size: 14px; font-weight: 600; }
+    .intro { max-width: 920px; margin: 0 0 22px; color: var(--muted); }
+    .panel {
+      padding: 23px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+    h3 { margin: 0 0 10px; font-size: 19px; }
+    h4 { margin: 22px 0 8px; font-size: 16px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 13px; }
+    .card { padding: 19px; border: 1px solid var(--line); border-radius: 14px; background: #fff; box-shadow: var(--shadow); }
+    .card strong { display: block; margin-bottom: 6px; font-size: 15px; }
+    .number { display: block; color: var(--brand); font-size: 31px; line-height: 1.1; }
+    .card em { color: var(--muted); font-style: normal; font-size: 13px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { padding: 11px 12px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { background: #f8fafd; font-size: 13px; }
+    tbody tr:nth-child(even) { background: #fbfdff; }
+    .table-wrap { overflow-x: auto; }
+    code { padding: 2px 5px; border-radius: 5px; background: #eef3fa; color: #29405f; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .92em; }
+    .pill { display: inline-block; padding: 3px 8px; border-radius: 999px; background: #edf3ff; color: var(--brand-dark); font-size: 12px; font-weight: 700; white-space: nowrap; }
+    .pill.path { background: #e7f5f2; color: var(--path); }
+    .pill.set { background: #f0ecfb; color: var(--set); }
+    .pill.ok { background: #e8f6f1; color: var(--ok); }
+    .pill.bad { background: #fdebe9; color: var(--bad); }
+    .pill.warn { background: #fff2e2; color: var(--warn); }
+    .callout { padding: 17px 19px; border-left: 4px solid var(--brand); border-radius: 11px; background: #f2f7ff; font-size: 14px; }
+    .callout.warn { border-left-color: var(--warn); background: #fff8ec; }
+    .callout.bad { border-left-color: var(--bad); background: #fff3f2; }
+    ol, ul { padding-left: 22px; }
+    li + li { margin-top: 6px; }
+    li::marker { color: var(--brand); font-weight: 700; }
+    .flow { display: grid; grid-template-columns: repeat(5, minmax(150px,1fr)); gap: 10px; }
+    .step { min-height: 112px; padding: 15px 13px; border: 1px solid var(--line); border-radius: 12px; background: #fbfdff; font-size: 13px; }
+    .step b { display: block; margin-bottom: 5px; color: var(--brand-dark); }
+    .step span { color: var(--muted); }
+    .template {
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fbfdff;
+      color: #28405f;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .axis { border-top: 4px solid var(--path); }
+    .axis:last-child { border-top-color: var(--set); }
+    .qa h3 { margin-top: 20px; }
+    .qa h3:first-of-type { margin-top: 0; }
+    .footer { padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+    @media (max-width: 900px) {
+      .hero { padding: 54px 24px 42px; }
+      .grid-2, .grid-3, .grid-4, .flow { grid-template-columns: 1fr; }
+    }
+    @media print {
+      body { background: #fff; }
+      .layout { max-width: none; padding: 0; }
+      .hero { margin: 0; padding: 30px 0 22px; color: #111; background: #fff; border-bottom: 2px solid #155eef; }
+      .panel, .card, .step { box-shadow: none; break-inside: avoid; }
+      .section { break-before: page; }
+      .section:first-of-type { break-before: auto; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header class="hero">
+    <div class="eyebrow">评测方案 · v1.3 · 2026-11-17</div>
+    <h1>WeKnora 知识库评测：一页看懂版</h1>
+    <p>这套评测只做一件事：给每个业务问题准备两个“标准答案”——一个标准访问路径，一个标准知识集合。然后调用 MCP，看它有没有按路径走、有没有把知识集拿全。</p>
+    <div class="hero-pills">
+      <span>不是评页面排版</span>
+      <span>不是评聊天体验</span>
+      <span>评 MCP 的取数行为</span>
+      <span>9 组案例对应评测维度</span>
+    </div>
+  </header>
+
+  <section class="section">
+    <h2>01 先看结论 <small>评测思路只有三步</small></h2>
+    <div class="flow">
+      <div class="step"><b>1. 出题</b><span>选真实业务问题，业务专家标出必须拿到的所有页面。</span></div>
+      <div class="step"><b>2. 调 MCP</b><span>像 AI Agent 一样逐步调用，不直接看最终答案。</span></div>
+      <div class="step"><b>3. 对路径</b><span>是否先索引/摘要，再按需下钻，没有跳级或倾倒。</span></div>
+      <div class="step"><b>4. 对集合</b><span>必须返回的知识有没有缺、旧版本有没有混进来。</span></div>
+      <div class="step"><b>5. 出结论</b><span>缺致命知识、层级违规或越权，直接不通过。</span></div>
+    </div>
+    <p class="callout" style="margin-top:18px"><strong>一句话：</strong>渐进式披露评“怎么拿”，知识完整性评“拿到了什么”。两条都对了，基于 WeKnora 的知识库才算正确。</p>
+  </section>
+
+  <section class="section">
+    <h2>02 两个评测面 <small>分别看什么内容</small></h2>
+    <p class="intro">两个评测面不要混在一起：一个检查 Wiki 结构有没有被 MCP 正确、克制地使用；另一个检查输入对应的相关知识有没有被拿全。</p>
+    <div class="grid-2">
+      <article class="panel">
+        <h3>评测面 A：Wiki 结构正确性</h3>
+        <p><strong>通俗解释：</strong>Wiki 是否像一棵能被 AI 正确行走的树——先找对入口，再看目录和摘要，最后按需打开详情。</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th style="width:135px">维度</th><th>检查内容</th></tr></thead>
+            <tbody>
+              <tr><td><strong>W1 入口路由</strong></td><td>能否识别产品线、业务域、当前基线和入口页。</td></tr>
+              <tr><td><strong>W2 层级顺序</strong></td><td>是否按空间入口 → 域首页 → 域上下文包 → 详情页 → 证据页逐层读取。</td></tr>
+              <tr><td><strong>W3 返回粒度</strong></td><td>目录层不返回正文，摘要层不替代精确规则，详情层才返回完整规则。</td></tr>
+              <tr><td><strong>W4 下钻指引</strong></td><td>每层是否给出 page_id、next action 和继续下钻的条件。</td></tr>
+              <tr><td><strong>W5 停止条件</strong></td><td>问题已足够回答时是否停止；是否遵守最大自动展开页数。</td></tr>
+              <tr><td><strong>W6 状态治理</strong></td><td>confirmed / active、旧版本、冲突、废弃、权限是否处理正确。</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+      <article class="panel">
+        <h3>评测面 B：检索知识准确性</h3>
+        <p><strong>通俗解释：</strong>给定一个业务输入，MCP 返回的知识集合是否覆盖所有会影响结论的内容。</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th style="width:135px">维度</th><th>检查内容</th></tr></thead>
+            <tbody>
+              <tr><td><strong>R1 输入理解</strong></td><td>能否识别同义说法、业务对象、意图和缺失条件。</td></tr>
+              <tr><td><strong>R2 主知识召回</strong></td><td>主规则、主定义、主场景是否必然返回。</td></tr>
+              <tr><td><strong>R3 关系召回</strong></td><td>例外、术语、流程、状态、风险、依赖、证据是否一起返回。</td></tr>
+              <tr><td><strong>R4 条件触发</strong></td><td>出现积分、虚拟商品、预售、并发等触发词时，是否带入对应知识。</td></tr>
+              <tr><td><strong>R5 干扰排除</strong></td><td>无关页面、重复内容、旧版本、无权限内容是否被排除。</td></tr>
+              <tr><td><strong>R6 深度适配</strong></td><td>返回的是摘要、详情还是证据，是否足以支撑当前任务。</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </div>
+    <p class="callout" style="margin-top:16px"><strong>区别：</strong>评测面 A 发现“读法错”，例如跳级、倾倒、无下一步；评测面 B 发现“读漏 / 读错”，例如漏例外、漏跨域、混入旧版本。</p>
+  </section>
+
+  <section class="section">
+    <h2>03 案例集设计 <small>每组案例只测明确维度</small></h2>
+    <p class="intro">MVP 共 30 题，分成 9 组。每组案例都绑定上面的 W/R 维度，避免所有指标混在一道题里导致失败原因看不清。</p>
+    <div class="panel table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:165px">案例集</th>
+            <th style="width:65px">题量</th>
+            <th style="width:125px">匹配维度</th>
+            <th>典型题目</th>
+            <th>通过标准</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>A1 入口路由</strong></td><td>3</td><td>W1</td><td>“预售退款”应进入商城 / 订单域，而不是营销或会员域。</td><td>首次返回正确空间、业务域和入口指针。</td></tr>
+          <tr><td><strong>A2 层级与粒度</strong></td><td>4</td><td>W2 / W3</td><td>先问“订单域有哪些退款知识”，再问“48 小时规则原文是什么”。</td><td>第一问只给索引 / 摘要，第二问才下钻详情。</td></tr>
+          <tr><td><strong>A3 下钻与停止</strong></td><td>4</td><td>W4 / W5</td><td>从域上下文包继续打开预售退款场景；取完必读页后停止。</td><td>next action 可用，不超最大展开数，不主动倾倒证据。</td></tr>
+          <tr><td><strong>A4 状态与权限</strong></td><td>3</td><td>W6</td><td>v2.0 与 v2.3 并存、冲突页、跨产品线访问。</td><td>只返回当前有效版本；冲突先读证据；无权限安全拒答。</td></tr>
+          <tr><td><strong>B1 单点事实</strong></td><td>4</td><td>R1 / R2</td><td>“待履约是什么意思”“退款超时是多少小时”。</td><td>返回正确术语或主规则，并达到详情层。</td></tr>
+          <tr><td><strong>B2 规则与例外</strong></td><td>5</td><td>R2 / R3</td><td>预售、虚拟商品、用户主动取消等例外场景。</td><td>主规则和所有必选例外同时返回，缺一个即失败。</td></tr>
+          <tr><td><strong>B3 流程与风险</strong></td><td>3</td><td>R3 / R6</td><td>下单到退款状态流转、并发回调、重复退款。</td><td>返回流程、状态前置后置和风险控制知识。</td></tr>
+          <tr><td><strong>B4 跨域条件</strong></td><td>2</td><td>R4</td><td>退款时提到积分回退、财务对账。</td><td>触发对应跨域决策页，而不是只返回本域页面。</td></tr>
+          <tr><td><strong>B5 负例与噪声</strong></td><td>2</td><td>R5</td><td>库里没有的问题、权限外问题、同名但无关的知识。</td><td>拒答或提示条件不足；不混入无关和越权内容。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="callout" style="margin-top:16px"><strong>扩展规则：</strong>发版评测可把每组按产品线扩展到 90-120 题；线上失败问题按同一维度归入对应案例集，不新增口径混乱的自由题。</p>
+  </section>
+
+  <section class="section">
+    <h2>04 一个完整例子 <small>看懂这个就看懂评测</small></h2>
+    <p class="intro">题目：AI 要补充“预售订单未发货前申请退款”的需求说明。业务专家不能只给一个标准答案，还必须说明这题需要哪些知识，以及 MCP 应该怎么拿。</p>
+
+    <div class="panel">
+      <h3>业务专家预先写好的两个标准答案</h3>
+      <div class="grid-2">
+        <article class="card axis">
+          <strong>标准路径：怎么拿</strong>
+          <ol>
+            <li>先识别到「商城 / 订单域」，只返回域入口和状态。</li>
+            <li>再取订单域上下文包，只返回摘要和必读清单。</li>
+            <li>需要精确规则时，才展开具体页面。</li>
+            <li>涉及积分回退时，才跳到跨域决策页。</li>
+            <li>只有冲突或需要核验来源时，才打开证据层。</li>
+          </ol>
+        </article>
+        <article class="card axis">
+          <strong>标准集合：拿到什么</strong>
+          <ul>
+            <li>预售订单退款场景</li>
+            <li>退款超时规则</li>
+            <li>取消订单规则</li>
+            <li>虚拟商品退款例外</li>
+            <li>重复退款风险</li>
+            <li>条件知识：积分回退跨域决策</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:16px">
+      <h3>实际评测时的判定</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:150px">检查</th><th>合格行为</th><th style="width:430px">典型不合格</th></tr></thead>
+          <tbody>
+            <tr><td><span class="pill path">路径检查</span></td><td>第 1 次返回域入口 / 摘要，后续按需打开页面。</td><td>第 1 次直接返回几十段原文；或只给摘要却让它输出精确规则。</td></tr>
+            <tr><td><span class="pill set">集合检查</span></td><td>标准集合中的 5 个必读页面都进入返回结果。</td><td>只返回“预售退款场景”，漏掉虚拟商品例外和重复退款风险。</td></tr>
+            <tr><td><span class="pill set">条件检查</span></td><td>用户提到积分回退时，返回跨域决策。</td><td>返回会员积分入账规则，但没返回退款与积分回退口径。</td></tr>
+            <tr><td><span class="pill bad">版本检查</span></td><td>只返回当前 active / confirmed 版本。</td><td>把 v2.0 旧规则和 v2.3 当前规则一起当成有效规则。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="callout bad" style="margin-top:15px"><strong>为什么这样评？</strong>如果只看最终答案，模型可能碰巧答对，但漏掉例外和风险；下次生成需求时仍会出错。评测 MCP 取数过程和取数集合，才能定位问题在知识库、检索还是披露协议。</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>05 每道评测题长什么样 <small>五个字段就够了</small></h2>
+    <p class="intro">先不引入复杂指标。评测集只要把下面五个字段写清楚，就能自动判分。</p>
+    <div class="template">题目：
+  预售订单未发货前申请退款，需求说明要注意什么？
+
+1. expected_path：标准访问层级
+   D0 空间入口 → D1 订单域索引 → D2 域上下文包 → D3 必读页面
+
+2. required_pages：必选页面，缺一个就失败
+   - 场景-预售订单退款
+   - 规则-退款超时
+   - 规则-取消订单
+   - 需求-虚拟商品退款例外
+   - 风险-重复退款
+
+3. conditional_pages：条件页面
+   - 提到“积分回退”时，必须加：决策-退款与积分回退口径
+
+4. forbidden_pages：禁止返回
+   - 旧版本页面
+   - 无关产品线页面
+   - 无权限页面
+
+5. stop_condition：什么时候停止展开
+   - 必读页面取完即停；未涉及积分或冲突，不打开证据全文</div>
+  </section>
+
+  <section class="section">
+    <h2>06 两张评分表 <small>先定性，再量化</small></h2>
+    <div class="grid-2">
+      <article class="panel">
+        <h3>评分 A：渐进式披露是否正确</h3>
+        <p>只看 MCP 的访问过程，不看答案文笔。</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>检查</th><th style="width:85px">分值</th></tr></thead>
+            <tbody>
+              <tr><td>W1 入口路由：从正确的空间 / 域入口开始</td><td>15</td></tr>
+              <tr><td>W2/W3 层级与粒度：先索引摘要，再按需详情</td><td>25</td></tr>
+              <tr><td>W4 下钻指引：提供 page_id / next action</td><td>20</td></tr>
+              <tr><td>W5 停止条件：有理由才展开，取完即停</td><td>20</td></tr>
+              <tr><td>W6 状态治理：版本、冲突、权限正确</td><td>20</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+      <article class="panel">
+        <h3>评分 B：相关知识是否拿全</h3>
+        <p>只比较实际返回集合和标准集合。</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>检查</th><th style="width:85px">分值</th></tr></thead>
+            <tbody>
+              <tr><td>R1/R2 输入理解与主知识召回</td><td>35</td></tr>
+              <tr><td>R3 例外、术语、流程、风险等关系覆盖</td><td>25</td></tr>
+              <tr><td>R4 条件页面该触发时触发</td><td>15</td></tr>
+              <tr><td>R5 无关页面、旧版本、越权内容不混入</td><td>15</td></tr>
+              <tr><td>R6 返回深度和来源定位足够核验</td><td>10</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </div>
+    <p class="callout warn" style="margin-top:16px"><strong>推荐门槛：</strong>MVP 阶段两张表都 ≥90 分；必选知识召回 ≥95%；任何一题缺主规则、关键例外、当前版本或越权返回，均一票否决。</p>
+  </section>
+
+  <section class="section">
+    <h2>07 MVP 怎么跑 <small>30 题，5 天</small></h2>
+    <p class="intro">30 题直接来自第 03 章的 9 组案例集：A1-A4 共 14 题评 Wiki 结构读取，B1-B5 共 16 题评知识准确性。</p>
+    <div class="panel" style="margin-top:16px">
+      <h3>五天安排</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:100px">时间</th><th style="width:220px">做什么</th><th>产出</th></tr></thead>
+          <tbody>
+            <tr><td>D1</td><td>业务专家出题</td><td>30 题、标准路径、必选 / 条件 / 禁止页面。</td></tr>
+            <tr><td>D2</td><td>固化环境</td><td>知识库快照、模型配置、MCP schema、权限账号。</td></tr>
+            <tr><td>D3</td><td>批量调用</td><td>每次请求、返回页面、层级、token、trace。</td></tr>
+            <tr><td>D4</td><td>自动对比 + 人工复核</td><td>路径违规清单、漏召回清单、混入清单。</td></tr>
+            <tr><td>D5</td><td>归因和结论</td><td>P0/P1 修复项、回归用例、是否通过。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>08 出错后怎么定位 <small>四类原因</small></h2>
+    <div class="grid-2">
+      <article class="panel"><h3>知识库没写对</h3><ul><li>页面缺失。</li><li>例外、风险、跨域关系没登记。</li><li>状态或版本标错。</li></ul></article>
+      <article class="panel"><h3>披露协议没实现对</h3><ul><li>缺少层级控制。</li><li>默认返回全文。</li><li>没有 next action。</li></ul></article>
+      <article class="panel"><h3>检索没找全</h3><ul><li>向量召回不足。</li><li>精确编号没走 BM25。</li><li>过滤条件过严。</li></ul></article>
+      <article class="panel"><h3>排序或过滤错了</h3><ul><li>旧版本排前面。</li><li>无关内容混入。</li><li>权限过滤没在检索层执行。</li></ul></article>
+    </div>
+    <p class="callout" style="margin-top:16px"><strong>修复原则：</strong>先补知识关系和元数据，再调检索参数；不能只调大 top_k 或让模型凭感觉补答案。</p>
+    <div class="footer">版本：v1.3 · 日期：2026-11-17 · 核心评测对象：WeKnora MCP 的渐进披露行为与相关知识返回集合。</div>
+  </section>
+</div>
+</body>
+</html>
